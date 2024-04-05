@@ -1,0 +1,56 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<!-- Html============================================================-->
+<section style="height:100%">
+    <div class="text-center">
+        <h1 class="display-4">Welcome</h1>
+    </div>
+
+    <!--開發人員用設定-->
+    <div id="div_DeveloperSetting" style="display:none">
+        <div class="card mb-3">
+            <!--Card Header-->
+            <div class="card-header padd-lr-7" style="cursor: pointer" data-bs-toggle="collapse" data-bs-target="#clps_DeveloperSetting">
+                <h4 style="margin:0px">開發人員設定用入口</h4>
+            </div>
+            <div id="clps_DeveloperSetting" class="collapse show">
+                <form asp-action="Index" asp-controller="Z_DeveloperSetting" id="form_DeveloperSetting">
+                    <!--Card Body-->
+                    <div class="card-body padd-lr-7">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Account" class="control-label">開發人員登入帳號</label>
+                                    <input type="text" id="Account" name="account"
+                                           class="_Account form-control w-100"
+                                           style=""
+                                           placeholder="請輸入" title="開發人員登入帳號" />
+                                </div><hr />
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="Password" class="control-label">開發人員登入密碼</label>
+                                    <input type="password" id="Password" name="password"
+                                           class="_Password form-control w-100"
+                                           style=""
+                                           placeholder="請輸入" title="開發人員登入密碼" />
+                                </div><hr />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--Card Footer-->
+                    <div class="card-footer text-muted padd-lr-7">
+                        <Button type="submit" class="btn btn-primary">
+                            進入
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div style="height:25px; width:25px; position:fixed; right:0; bottom:0; background-color:transparent" onclick="$('#div_DeveloperSetting').toggle()"></div>
+</section>

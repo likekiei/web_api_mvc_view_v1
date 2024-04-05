@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Temp";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!-- Html============================================================-->
+<section>
+    <div class="mt-4" style="display:inline-flex">
+        <h1>Temp</h1>
+        <a href="javascript:void(0)" DisplayStatus="hide" onclick="DevelopMemo_Toggle(this, $(this).closest('section').find('._mDevelopMemo'))"><i class="fas fa-question-circle"></i></a>
+    </div><hr style="border-width:3px" />
+
+    <div>
+        <div class="mb-2">
+            <a href="@Url.Action("CheckCustomDbLink_ByLoginConnectString", "ConnectSetting")"
+               data-ajax="true" data-ajax-method="Post" data-ajax-success="myaa_ComAlert(data, null, null, null)"
+               data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()"
+               class="_btnReset btn btn-info">
+                客製DB連線測試
+            </a>
+        </div>
+    </div><hr style="border-width:3px" />
+    
+    <div>
+        <div class="mb-2">
+            <a href="@Url.Action("Update_DbMigration_ByCustomDb", "ConnectSetting")"
+               data-ajax="true" data-ajax-method="Post" data-ajax-success="myaa_ComAlert(data, null, null, null)"
+               data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()"
+               class="_btnReset btn btn-info">
+                【客製DB】資料庫移轉-更新至最新版
+            </a>
+        </div>
+
+        <div class="mb-2">
+            <form asp-action="Update_DbMigrationTarget_ByCustomDb" asp-controller="ConnectSetting"
+                  id="form_Update_DbMigrationTarget_ByCustomDb"
+                  data-ajax="true" data-ajax-method="Post" data-ajax-success="myaa_ComAlert(data, null, null, null)"
+                  data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()">
+
+                <button type="submit" class="btn btn-info">【客製DB】資料庫移轉-指定版本更新</button>
+                <input type="text" name="targetMigrationVersion" value="" class="" style="width:500px" />
+            </form>
+        </div>
+    </div>
+</section>

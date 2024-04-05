@@ -1,0 +1,104 @@
+﻿@model Main_Common.Model.Data.User.User_Filter
+
+@{
+    ViewData["Title"] = "Form Basic";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<!-- Html============================================================-->
+<section>
+    <div class="mt-4" style="display:inline-flex">
+        <h1>Form Basic相關</h1>
+        <a href="javascript:void(0)" DisplayStatus="hide" onclick="DevelopMemo_Toggle(this, $(this).closest('section').find('._mDevelopMemo'))"><i class="fas fa-question-circle"></i></a>
+    </div><hr />
+
+    <div class="_mDevelopMemo _mHideMemo alert alert-danger" style="display:none" role="alert">
+        <h5 style="font-weight:bold">必要套件(可用NuGet，但建議自行抓取匯入專案，感覺NuGet會怪怪的)：</h5>
+        <ul>
+            <li>jquery (必須的)</li>
+            <li>jquery-validation (前端驗證相關)</li>
+            <li>jquery-validation-unobtrusive (前端驗證相關)</li>
+            <li>jquery.unobtrusive-ajax (ajax相關)</li>
+        </ul>
+    </div>
+
+    <div class="_mDevelopMemo _mHideMemo alert alert-danger" style="display:none" role="alert">
+        <ul style="margin:0">
+            <li>【PS】.net core沒有@ajax可以使用，要改用data-*的方法去處理。</li>
+        </ul>
+    </div>
+
+    <form asp-action="Submit_FormBasic" asp-controller="MyTest"
+          data-ajax="true" data-ajax-method="Post"
+          data-ajax-failure="alert('onFailed')" data-ajax-success="alert(data._message)">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="No" class="">代號</label>
+                    @Html.TextBoxFor(m => m.No, new { id = "No", @type = "text", @class = "_No form-control w-100", placeholder = "請輸入", title = "代號" })
+                    @Html.ValidationMessageFor(m => m.No, "", new { @class = "text-danger" })
+                </div><hr />
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="Name" class="">名稱</label>
+                    @Html.TextBoxFor(m => m.Name, new { id = "Name", @type = "text", @class = "_Name form-control w-100", placeholder = "請輸入", title = "名稱" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div><hr />
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-info">Submit</button>
+    </form>
+
+    <hr />
+    <button type="button" class="btn btn-info" onclick="TTT()">ajax button</button>
+</section>
+
+<script>
+    function TTT() {
+        // 請求資料
+        var queryObj = {
+            No: "A",
+            Name: "B",
+        }
+
+        $.ajax({
+            url: '@Url.Action("Submit_FormBasic", "Form")',
+            type: "post",
+            data: queryObj,
+            //dataType: "json",
+            async: false, // 同步處理
+            success: function (response) { // 請求成功
+                //alert("success");
+                alert(response._message);
+                //if (response !== undefined) { // 有回傳
+                //    if (response.IsSuccess !== undefined) { // 回傳Message
+                //        if (response.IsSuccess == true) { // 成功
+                //            row.find("._TF_CRUD").val("D");
+                //            row.hide();
+
+                //            //將isValid設為True以外，避免驗證已被隱藏的元素。  如果有特別設定該表單會驗證符合條件的隱藏元素。
+                //            row.find("[isValid=True]").each(function (index, elem) {
+                //                $(elem).attr("isValid", "False");
+                //            });
+                //        } else { //失敗
+                //            ComAlert(response.Message, null, null);
+                //        }
+                //    } else { //回傳PartialView
+                //        ComFail();
+                //    }
+                //} else { //無回傳
+                //    ComFail();
+                //}
+            },
+            error: function () { // 請求失敗
+                alert("error");
+                //ComFail();
+            },
+            complete: function () { // 每次
+                // ...
+            }
+        });
+    }
+</script>

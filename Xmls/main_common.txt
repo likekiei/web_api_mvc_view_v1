@@ -1,0 +1,432 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>ERP_APP</name>
+    </assembly>
+    <members>
+        <member name="T:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp">
+            <summary>
+            生產繳庫驗收單相關
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._Message_Tool">
+            <summary>
+            【Tool】訊息處理
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._DB_T014Context">
+            <summary>
+            ERPDB
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._MF_TY_Repository">
+            <summary>
+            生產繳庫驗收單_表頭檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._MF_TY_Z_Repository">
+            <summary>
+            生產繳庫驗收單_表頭自定義欄位檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._TF_TY_Repository">
+            <summary>
+            生產繳庫驗收單_表身檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._MF_TI_Z_Repository">
+            <summary>
+            送檢單_表頭自定義欄位檔 
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._SPC_LST_Repository">
+            <summary>
+            查(不合格)原因欄位檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._MF_TY_Z_Service_Erp">
+            <summary>
+            【ERP】生產繳庫驗收單相關
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._SPC_LST_Service_Erp">
+            <summary>
+            【ERP】(不合格)原因單相關
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp._AllDataDTO">
+            <summary>
+            【DTO】全部資料的DTO
+            </summary>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp.#ctor(ERP_EF.Models.DB_T014Context,Main_Common.Model.Main.MainSystem_DTO,ERP_APP.Service.S_MF_TY.MF_TY_Z_Service_Erp,ERP_APP.Service.S_SPC_LST.SPC_LST_Service_Erp,Main_Common.Tool.Message_Tool)">
+            <summary>
+            建構
+            </summary>
+            <param name="_DB_T014Context">ERP資料庫</param>
+            <param name="mainSystem_DTO">主系統資料</param>
+            <param name="logService_Main">Log相關</param>
+            <param name="messageTool">訊息處理</param>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp.CreateProductAcceptance(Main_Common.Model.DTO.TY_ProductAcceptance.MfTyProductAcceptance_DTO)">
+            <summary>
+            建立生產繳庫驗收單_單筆資料
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp.GetNo_TY(System.DateTime)">
+             <summary>
+            【單筆】【生產繳庫驗收單】取得生產繳庫驗收單號
+             </summary>
+             <param name="date"></param>
+             <returns></returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp.GetNos_TY(System.DateTime,System.Int32)">
+            <summary>
+            【多筆】【生產繳庫驗收單】取得生產繳庫驗收單號
+            </summary>
+            <param name="date"></param>
+            <param name="count">要取幾組代號</param>
+            <returns></returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp.DelSpc(System.String)">
+            <summary>
+            刪除新增的不合格原因
+            </summary>
+            <param name="spcno"></param>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp.DelNew(System.String)">
+            <summary>
+            刪除新增
+            </summary>
+            <param name="tyno"></param>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp.Check_IsExist_MF_TY(System.String)">
+            <summary>
+            檢查生產繳庫驗收單表頭資料是否存在 [true存在]
+            </summary>
+            <param name="no">單號</param>
+            <returns>[true：存在]</returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp.Check_IsExist_SPC_LST(System.String)">
+            <summary>
+            檢查不合格原因資料是否存在 [true存在]
+            </summary>
+            <param name="spcno"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp.Check_IsExist_MF_TY_Z(System.String)">
+            <summary>
+            檢查生產繳庫驗收單表頭自定義資料是否存在 [true存在]
+            </summary>
+            <param name="no">單號</param>
+            <returns>[true：存在]</returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp.Check_IsExist_TF_TY(System.String)">
+            <summary>
+            檢查生產繳庫驗收單表身資料是否存在 [true存在]
+            </summary>
+            <param name="no">單號</param>
+            <returns>[true：存在]</returns>
+        </member>
+        <member name="T:ERP_APP.Service.S_MF_TY.MF_TY_Z_Service_Erp">
+            <summary>
+            生產繳庫驗收單表頭_自定義檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Z_Service_Erp._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Z_Service_Erp._Message_Tool">
+            <summary>
+            【Tool】訊息處理
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Z_Service_Erp._MF_TY_Z_Repository">
+            <summary>
+            生產繳庫驗收單表頭_自定義檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_MF_TY.MF_TY_Z_Service_Erp._AllDataDTO">
+            <summary>
+            【DTO】全部資料的DTO
+            </summary>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Z_Service_Erp.#ctor(ERP_EF.Models.DB_T014Context,Main_Common.Model.Main.MainSystem_DTO,Main_Common.Tool.Message_Tool)">
+            <summary>
+            建構
+            </summary>
+            <param name="_DB_T014Context">ERP資料庫</param>
+            <param name="mainSystem_DTO">主系統資料</param>
+            <param name="logService_Main">Log相關</param>
+            <param name="messageTool">訊息處理</param>
+        </member>
+        <member name="M:ERP_APP.Service.S_MF_TY.MF_TY_Z_Service_Erp.Check_IsExist_MF_TI_Z(System.String)">
+            <summary>
+            檢查日威單號是否存在(依日威送檢單號) [true存在]
+            </summary>
+            <param name="no">單號</param>
+            <returns>[true：存在]</returns>
+        </member>
+        <member name="T:ERP_APP.Service.S_Product_Inspection.MF_TI_Z_Service_Erp">
+            <summary>
+            送檢單_自定義
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.MF_TI_Z_Service_Erp._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.MF_TI_Z_Service_Erp._Message_Tool">
+            <summary>
+            【Tool】訊息處理
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.MF_TI_Z_Service_Erp._MF_TI_Z_Repository">
+            <summary>
+            送檢單_自定義檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.MF_TI_Z_Service_Erp._AllDataDTO">
+            <summary>
+            【DTO】全部資料的DTO
+            </summary>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.MF_TI_Z_Service_Erp.#ctor(ERP_EF.Models.DB_T014Context,Main_Common.Model.Main.MainSystem_DTO,Main_Common.Tool.Message_Tool)">
+            <summary>
+            建構
+            </summary>
+            <param name="_DB_T014Context">ERP資料庫</param>
+            <param name="mainSystem_DTO">主系統資料</param>
+            <param name="logService_Main">Log相關</param>
+            <param name="messageTool">訊息處理</param>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.MF_TI_Z_Service_Erp.Check_IsExist_MF_TI_Z(System.String)">
+            <summary>
+            檢查日威單號是否存在(依日威送檢單號) [true存在]
+            </summary>
+            <param name="no">單號</param>
+            <returns>[true：存在]</returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.MF_TI_Z_Service_Erp.Check_IsExist_MF_TI_Z_TI_NO(System.String)">
+            <summary>
+            檢查送檢單號是否存在 [true存在]
+            </summary>
+            <param name="no">單號</param>
+            <returns>[true：存在]</returns>
+        </member>
+        <member name="T:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp">
+            <summary>
+            送檢單相關
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp._Message_Tool">
+            <summary>
+            【Tool】訊息處理
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp._DB_T014Context">
+            <summary>
+            ERPDB
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp._MF_TI_Repository">
+            <summary>
+            送檢單表頭檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp._MF_TI_Z_Repository">
+            <summary>
+            送檢單表頭自定義欄位檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp._TF_TI_Repository">
+            <summary>
+            送檢單表身檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp._TF_TI_Z_Repository">
+            <summary>
+            送檢單表身自定義欄位檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp._MF_TI_Z_Service_Erp">
+            <summary>
+            【ERP】送檢單相關
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp._AllDataDTO">
+            <summary>
+            【DTO】全部資料的DTO
+            </summary>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp.#ctor(ERP_EF.Models.DB_T014Context,Main_Common.Model.Main.MainSystem_DTO,ERP_APP.Service.S_Product_Inspection.MF_TI_Z_Service_Erp,Main_Common.Tool.Message_Tool)">
+            <summary>
+            建構
+            </summary>
+            <param name="_DB_T014Context">ERP資料庫</param>
+            <param name="mainSystem_DTO">主系統資料</param>
+            <param name="logService_Main">Log相關</param>
+            <param name="messageTool">訊息處理</param>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp.CreateProductInspection(Main_Common.Model.DTO.TI_ProductInspection.MfTiProductInspection_DTO)">
+            <summary>
+            建立送檢單單筆資料
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp.GetNo_TI(System.DateTime)">
+             <summary>
+            【單筆】【送檢單】取得送檢單號
+             </summary>
+             <param name="date"></param>
+             <returns></returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp.GetNos_MF_TI(System.DateTime,System.Int32)">
+            <summary>
+            【多筆】【送檢單】取得送檢單號
+            </summary>
+            <param name="date"></param>
+            <param name="count">要取幾組代號</param>
+            <returns></returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp.DelNew(System.String)">
+            <summary>
+            刪除新增
+            </summary>
+            <param name="tino"></param>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp.Check_IsExist_MF_TI(System.String)">
+            <summary>
+            檢查送檢單表頭是否存在 [true存在]
+            </summary>
+            <param name="no">單號</param>
+            <returns>[true：存在]</returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp.Check_IsExist_TF_TI(System.String)">
+            <summary>
+            檢查送檢單表身是否存在 [true存在]
+            </summary>
+            <param name="no">單號</param>
+            <returns>[true：存在]</returns>
+        </member>
+        <member name="M:ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp.Check_IsExist_TF_TI_Z(System.String)">
+            <summary>
+            檢查送檢單表身-自定義欄位是否存在 [true存在]
+            </summary>
+            <param name="no">單號</param>
+            <returns>[true：存在]</returns>
+        </member>
+        <member name="T:ERP_APP.Service.S_SPC_LST.SPC_LST_Service_Erp">
+            <summary>
+            (不合格)原因單相關
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_SPC_LST.SPC_LST_Service_Erp._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_SPC_LST.SPC_LST_Service_Erp._Message_Tool">
+            <summary>
+            【Tool】訊息處理
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_SPC_LST.SPC_LST_Service_Erp._SPC_LST_Repository">
+            <summary>
+            (不合格)原因檔
+            </summary>
+        </member>
+        <member name="M:ERP_APP.Service.S_SPC_LST.SPC_LST_Service_Erp.#ctor(ERP_EF.Models.DB_T014Context,Main_Common.Model.Main.MainSystem_DTO,Main_Common.Tool.Message_Tool)">
+            <summary>
+            建構
+            </summary>
+            <param name="_DB_T014Context">ERP資料庫</param>
+            <param name="mainSystem_DTO">主系統資料</param>
+            <param name="logService_Main">Log相關</param>
+            <param name="messageTool">訊息處理</param>
+        </member>
+        <member name="M:ERP_APP.Service.S_SPC_LST.SPC_LST_Service_Erp.Check_IsExist_SPC_LST(System.String)">
+            <summary>
+            檢查(不合格)原因代號是否存在 [true存在]
+            </summary>
+            <param name="no">單號</param>
+            <returns>[true：存在]</returns>
+        </member>
+        <member name="T:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp">
+            <summary>
+            製令單相關
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp._Message_Tool">
+            <summary>
+            【Tool】訊息處理
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp._DB_T014Context">
+            <summary>
+            ERP DB
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp._MF_MO_Repository">
+            <summary>
+            製令單表頭檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp._TF_MO_Repository">
+            <summary>
+            製令單表身檔
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp._MF_BOM_Repository">
+            <summary>
+            商品物物料表
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp._Word_Order_Service_Erp">
+            <summary>
+            【ERP】製令單相關
+            </summary>
+        </member>
+        <member name="F:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp._AllDataDTO">
+            <summary>
+            【DTO】全部資料的DTO
+            </summary>
+        </member>
+        <member name="M:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp.#ctor(ERP_EF.Models.DB_T014Context,Main_Common.Model.Main.MainSystem_DTO,Main_Common.Tool.Message_Tool)">
+            <summary>
+            建構
+            </summary>
+            <param name="_DB_T014Context">ERP資料庫</param>
+            <param name="mainSystem_DTO">主系統資料</param>
+            <param name="logService_Main">Log相關</param>
+            <param name="messageTool">訊息處理</param>
+        </member>
+        <member name="M:ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp.GetWorkOrders(Main_Common.Model.DTO.MO_WorkOrder.MoWorkOrder_Filter)">
+            <summary>
+            製令單 
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,58 @@
+﻿@using HtmlHelpers.BeginCollectionItemCore;
+@model Main_Common.Model.Data.FunctionCode.FunctionCode_Model
+@{
+    var today = DateTime.UtcNow.AddHours(8);
+}
+
+@{
+    //string _TF_IsHide_ID = null; //用來保存是否隱藏元件的ID，Script要用。
+    string trId = $"row_{(int)Model.FunctionCodeId}";
+}
+
+<tr id="@trId" class="_Row">
+    @using (Html.BeginCollectionItem("FunctionCodeList"))
+    {
+        //_TF_IsHide_ID = Html.IdFor(m => Model.ElementAt(i).IsHide).ToString();
+        <td style="text-align:center">
+            @Html.HiddenFor(m => m.CRUD, new { @class = "_TF_CRUD" })
+            @Html.HiddenFor(m => m.Id, new { @class = "_TF_Id" })
+            @Html.HiddenFor(m => m.RoleId, new { @class = "_TF_RoleId" })
+            @Html.HiddenFor(m => m.FunctionCodeId, new { @class = "_TF_FunctionCodeId" })
+            @Html.HiddenFor(m => m.CompanyId, new { @class = "_TF_CompanyId" })
+        </td>
+        <td style="padding-left:5px; padding-right:5px">
+            @((int)Model.FunctionCodeId)
+        </td>
+        <td style="padding-left:5px; padding-right:5px">
+            @Model.FunctionCodeId.ToString()
+        </td>
+        <td style="padding-left:5px; padding-right:5px; text-align:center">
+            @Html.HiddenFor(m => Model.IsStop, new { @class = "_TF_IsStop" })
+            <div class="checkbox-textbox-m">
+                <input type="checkbox" id="@("IsEnable_" + (int)Model.FunctionCodeId)" @(Model.IsStop ? "" : "checked")
+                       class="form-check-input"
+                       onclick="myaa_Checkbox_SetInput_CheckedVal(this, $(this).closest('td').find('._TF_IsStop'), true)"
+                       data-chkbox-shiftsel="@(Model.RoleId.HasValue ? "chk_FunctionCodeList_ByCreate" : "chk_FunctionCodeList_ByEdit")">
+                <label class="form-check-label" for="@("IsEnable_" + (int)Model.FunctionCodeId)"></label>
+            </div>
+        </td>
+        <td>
+            <div>
+                <script>
+                    $(document).ready(function () {
+                        // 設定checkbox範圍選取
+                        myaa_Init_Checkbox_Shiftsel($("#Table_FunctionCode_ByCreate"));
+                        myaa_Init_Checkbox_Shiftsel($("#Table_FunctionCode_ByEdit"));
+
+                        // 隱藏刪除項目
+                        if ('@(Model.CRUD)' == "D"){
+                            $("#" + "@trId").hide();
+                        }
+                    });
+                </script>
+            </div>
+        </td>
+    }
+</tr>
+
+

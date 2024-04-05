@@ -1,0 +1,221 @@
+﻿@using Main_Common.Enum
+@model Main_Common.Model.Account.Login_Model
+
+@{
+    ViewData["Title"] = "登入";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var today = DateTime.UtcNow.AddHours(8);
+    var permissionDTO = (Main_Common.Model.Tool.Permission_DTO)ViewBag.Permission_DTO; //權限DTO
+}
+
+
+<form asp-action="Login" asp-controller="Account"
+      id="form_Login"
+      data-ajax="true" data-ajax-method="Post" data-ajax-success="Result_Login(data)"
+      data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()">
+
+    @*@Html.AntiForgeryToken()*@
+    <div class="card" style="max-width:400px; margin:auto">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-auto" style="display:inline-flex">
+                    <h3 style="margin:0px">登入</h3>
+                    <a href="javascript:void(0)" DisplayStatus="hide" onclick="myaa_DevelopMemo_Toggle(this, $(this).closest('section').find('._mDevelopMemo'))"><i class="fas fa-question-circle"></i></a>
+                </div>
+                @*<div class="col text-end">
+                @Html.ActionLink("連線設定", "Login_ConnectSetting", "Account", null, new { @class = "btn btn-info btn-sm" })
+                </div>*@
+            </div>
+        </div>
+        <div class="card-body ">
+            <div class="_HiddenDiv">
+                <input asp-for="CRUD" type="hidden" id="CRUD" class="_CRUD" />
+            </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="Account" class="control-label">帳號</label>
+                        <input asp-for="Account" type="text"
+                               id="Account" class="_Account form-control w-100"
+                               style=""
+                               placeholder="請輸入" title="" />
+                        <span asp-validation-for="Account" class="text-danger"></span>
+                    </div><hr />
+                </div>
+
+                <div class="col-12">
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label">密碼</label>
+                        <input asp-for="Password" type="password"
+                               id="Password" class="_Password form-control w-100"
+                               style=""
+                               maxlength="" placeholder="請輸入" title="密碼" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div><hr />
+                </div>
+                <div class="col-12">
+                    <div class="form-group select2-textbox">
+                        <label asp-for="CompanyId" class="control-label">公司分級</label>
+                        <select asp-for="CompanyId" asp-items="@(IEnumerable<SelectListItem>)ViewBag.DropList_Company"
+                                id="CompanyId" class="_CompanyId _select2 form-control w-100 bg-disable-select"
+                                style="pointer-events:none"
+                                placeholder="請輸入" title="公司"></select>
+                        <span asp-validation-for="CompanyId" class="text-danger"></span>
+                    </div><hr />
+                </div>
+            </div>
+
+            @*<hr />
+            <div class="form-group select2-textbox">
+            <div class="row">
+            <div class="col-auto" style="margin:auto; margin-left:0">
+            <label for="CompanyId" class="required" style="vertical-align:middle">公司</label>
+            </div>
+            <div class="col-auto">
+            <button type="button" class="btn btn-info btn-sm mt-1 mb-1" style="float:right" onclick="Get_CompanyDropList(this)">
+            重新取得公司清單
+            </button>
+            </div>
+            </div>
+
+            @Html.DropDownListFor(m => m.CompanyId, (IEnumerable<SelectListItem>)new List<SelectListItem>(), null, new { id = "CompanyId", @class = "_CompanyId _select2 form-control", style = "width:100%", placeholder = "請選擇", title = "公司" })
+            @Html.ValidationMessageFor(m => m.CompanyId, "", new { @class = "text-danger" })
+            </div>*@
+
+            <div class="_mDevelopMemo _mHideMemo alert alert-danger mt-3" style="display:none" role="alert">
+                <ul style="margin:0">
+                    @*<li>【公司】欄位，依[帳號+密碼+連線群組]取得。</li>*@
+                    @*<li>【公司】欄位，由系統生成的預選項目。</li>*@
+                </ul>
+            </div>
+        </div>
+
+        <div class="card-footer padd-lr-7" style="text-align:right">
+            <Button class="btn btn-primary btn-lg">登入</Button>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        var form = $("#form_Login");
+
+        // 建構
+        Init_Select2_Company(form.attr("id"), false, @(Model.CompanyId ?? 0), null); // select2(公司)
+
+        // 解鎖
+        myaa_select2_Disable_Toggle(form.find("._CompanyId"), false); // select2(公司)
+
+
+        //// 依公司等級，區分執行區塊
+        //switch ('@@permissionDTO.CompanyLevelId') {
+        //    case '@@E_CompanyLevel.最高級':
+        //        //Init_Select2_Company(form.attr("id"), false, @@(Model.CompanyId ?? 0)); // 建構Select2
+        //        //select2_Disable_Toggle(form.find("._CompanyId"), false); //解鎖select2(公司)
+        //        break;
+        //    default:
+        //        //select2_Disable_Toggle(form.find("._CompanyId"), true); //禁用select2(公司)
+        //        break;
+        //}
+
+        // 重新綁定表單驗證
+        myaa_RefreshUnobtrusive_ById(form.attr("id"));
+    });
+</script>
+
+<!--Script============================================================-->
+@section Scripts {
+    <!--【登入】登入的請求回傳結果-->
+    <script>
+        function Result_Login(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        myaa_ComAlert_Redirect(response.title, response.message, null, response.toUrl);
+                    } else { //失敗
+                        myaa_ComAlert(response.title, response.message, null, null);
+                    }
+                } else { //回傳PartialView
+                    myaa_ComFail();
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!-- 【建構】Select2(公司) -->
+    <script>
+        //【formId：所屬表單】【isEmpty：是否先清空】【defaultVal：預選值】【targetId：指定目標Id】
+        function Init_Select2_Company(formId, isEmpty, defaultVal, targetId) {
+            var form = $("#" + formId);
+            //var companyId = form.find("._CompanyId").val();
+
+            // 目標元素
+            var targetElms = null;
+
+            // 取要處理的目標元素
+            // [條件：有無指定特定目標][T：有][F：無]
+            if (targetId !== undefined && targetId !== null) {
+                targetElms = form.find("#" + targetId);
+            } else {
+                targetElms = form.find("._CompanyId._select2");
+            }
+
+            // 公司，查有，執行
+            if (targetElms.length != 0) {
+                // 清空
+                if (isEmpty !== undefined && isEmpty == true) {
+                    targetElms.empty();
+                }
+
+                //// 查詢值
+                //var queryObj = {
+                //    Keyword: "",
+                //    IsEnable: true,
+                //    IdSelected: defaultVal,
+                //    CompanyId: companyId,
+                //}
+
+                // 建構
+                targetElms.select2({
+                    placeholder: "請選擇...",
+                    allowClear: true,
+                    //dropdownParent: form,
+                    ajax: {
+                        url: "@Url.Action("SimpleDropList_Company", "Z_Common")",
+                        dataType: 'json',
+                        delay: 250,
+                        data: function (params) {
+                            return {
+                                Keyword: params.term,
+                                PageNumber: params.page || 1,
+                                PageSize: 30,
+                                IsEnable: true,
+                                IdSelected: defaultVal,
+                                //CompanyId: companyId,
+                                //ignoreNo: deptNo
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+                            return {
+                                results: data.data,
+                                pagination: {
+                                    more: (params.page * 30) < data.totalCount
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    escapeMarkup: function (markup) { return markup; }, // let our Companyom formatter work
+                    minimumInputLength: 0,
+                });
+            }
+        }
+    </script>
+}

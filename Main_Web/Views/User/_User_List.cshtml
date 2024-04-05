@@ -1,0 +1,168 @@
+﻿@using Main_Web.Helper;
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Mvc.Core.Fluent;
+@using X.PagedList.Web.Common;
+@model IPagedList<Main_Common.Model.Data.User.User_List>
+@{
+    //分頁按鈕的屬性
+    PagedListRenderOptions pageListOptions = new PagedListRenderOptions()
+    {
+        //文字格式
+        LinkToFirstPageFormat = "<i class='fas fa-angle-double-left'></i>", // 第一頁
+        LinkToLastPageFormat = "<i class='fas fa-angle-double-right'></i>", // 最後一頁
+        LinkToNextPageFormat = "<i class='fas fa-angle-right'></i>", // 下一頁
+        LinkToPreviousPageFormat = "<i class='fas fa-angle-left'></i>", // 上一頁
+
+        // 按鈕顯示狀態_總是顯示
+        DisplayLinkToFirstPage = PagedListDisplayMode.Always, // 第一頁
+        DisplayLinkToLastPage = PagedListDisplayMode.Always, // 最後一頁
+        DisplayLinkToNextPage = PagedListDisplayMode.Always, // 下一頁
+        DisplayLinkToPreviousPage = PagedListDisplayMode.Always, // 上一頁
+        MaximumPageNumbersToDisplay = 3, // 顯示頁數的按鈕數
+        DisplayEllipsesWhenNotShowingAllPageNumbers = false, // 不顯示「...」
+                                                             
+        // 設定CSS樣式
+        ContainerDivClasses = new[] { "pagination-container", "_divPage_UserList" }, // Div的CSS樣式
+        UlElementClasses = new[] { "pagination", "page-ul" }, // ul的CSS樣式
+        LiElementClasses = new[] { "page-item" }, // li的CSS樣式
+        PageClasses = new string[] { "page-link" } // 分頁按鈕CSS樣式
+    };
+}
+
+<!-- HTML ===============================================================================-->
+<div class="card">
+    <div class="card-header padd-lr-7">
+        <i class="fas fa-table"></i>
+        <span>使用者清單</span>
+    </div>
+    <div class="card-body padd-lr-7">
+        @if (Model == null || Model.Count() == 0)
+        {
+            <span>查無資料</span>
+        }
+        else
+        {
+            <div class="_FreezeTable" style="overflow-x:auto">
+                <table id="Table_User" class="mFooTable table table-bordered table-striped" style="min-width:1500px">
+                    <thead>
+                        <tr class="table-dark">
+                            <th style="width:25px"></th>
+                            <th style="min-width:180px; vertical-align: inherit; text-align:center;">代號</th>
+                            <th style="min-width:150px; vertical-align: inherit; text-align:center;">名稱</th>
+                            <th style="min-width:150px; vertical-align: inherit; text-align:center;">信箱</th>
+                            <th style="min-width:150px; vertical-align: inherit; text-align:center;">角色</th>
+                            <th style="min-width:150px; vertical-align: inherit; text-align:center;">備註</th>
+                            <th style="width:100%; vertical-align: inherit; text-align:center;"></th>
+                        </tr>
+                    </thead>
+                    <tbody style="vertical-align:middle">
+                        @foreach (var item in Model)
+                        {
+                            <tr class="cart_table_item">
+                                <td style="vertical-align: inherit;"></td>
+                                <td style="vertical-align: inherit; word-break:break-all">
+                                    @item.No
+                                </td>
+                                <td style="vertical-align: inherit; word-break:break-all">
+                                    @item.Name
+                                </td>
+                                <td style="vertical-align: inherit; word-break:break-all">
+                                    @item.Mail
+                                </td>
+                                <td style="vertical-align: inherit; word-break:break-all">
+                                    @item.RoleName
+                                </td>
+                                <td style="vertical-align: inherit; word-break:break-all">
+                                    @item.Rem
+                                </td>
+                                <td style="text-align:left; vertical-align: inherit;">
+                                    @Html.MyHtmlAnnotation("修改按鈕")
+                                    <a href="@Url.Action("EditView_User", "User", new { key = item.Id })"
+                                       data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowTab_EditUser(data)"
+                                       data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()"
+                                       class="_btnReset btn btn-info">
+                                        修改
+                                    </a>
+
+                                    @Html.MyHtmlAnnotation("刪除按鈕")
+                                    @Html.MyHtmlAnnotation("因為要加入Comfirm，這邊用按鈕去觸發按鈕")
+                                    <button type="button" class="btn btn-danger" onclick="Delete_User($(this).next())">刪除</button>
+                                    <a href="@Url.Action("Delete_User", "User", new { key = item.Id })"
+                                       data-ajax="true" data-ajax-method="Post" data-ajax-success="Result_DeleteUser(data)"
+                                       data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()"
+                                       class="_btnReset btn btn-danger"
+                                       style="display:none">
+                                        刪除
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+        <!-- 分頁按鈕 -->
+        <div style="display:flex; justify-content:center">
+            @Html.PagedListPager(
+                Model,
+                page => Url.Action("Filter_UserList", "User",
+                    new { 
+                        PageNumber = page,
+                        PageSize = ViewBag.PageSize,
+                        Keyword = ViewBag.Keyword,
+                        CompanyId = ViewBag.CompanyId,
+                        Id = ViewBag.Id,
+                        No = ViewBag.No,
+                        Name = ViewBag.Name,
+                    }
+                ),
+                PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(
+                    pageListOptions,
+                    new AjaxOptions() { 
+                        HttpMethod = "POST", 
+                        OnBegin = "myaa_LoadingOn()", 
+                        OnComplete = "myaa_LoadingOff()", 
+                        OnFailure = "myaa_ComFail()", 
+                        OnSuccess = "Result_FilterUserList(data)" 
+                    }
+                )
+            )
+        </div>
+
+        <div class="_mDevelopMemo _mHideMemo alert alert-danger mt-3" style="display:none" role="alert">
+            <ul style="margin:0">
+                <li>【XX】XX，XXX。</li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<!-- Script ============================================================-->
+<script>
+    // 補上分頁按鈕的css樣式，因為<a>標籤會少css樣式，所以這邊手動補上
+    $(document).ready(function () {
+        //$("#Table_User").footable();
+
+        //// 建構FreezeTable
+        //$("#Table_User").closest("._FreezeTable").freezeTable({
+        //    "scrollable": true,
+        //    //fixedNavbar: "nav",
+        //    freezeColumn: true,
+        //    columnNum: 2,
+        //});
+
+        $("._divPage_UserList").find("a").each(function (index, elemt) {
+            //$(elemt).addClass("page-link");
+            $(elemt).removeAttr("data-ajax-update");
+        });
+
+        // 頁數，如果抓不到，默認1
+        var tempPageNumber = $("._divPage_UserList").find(".active").text();
+        tempPageNumber = myaa_IsNullOrEmpty(tempPageNumber) ? "1" : tempPageNumber;
+
+        $("#form_FilterUserList").find("._PageNumber").val(tempPageNumber); //取得當前頁數
+    });
+</script>
+

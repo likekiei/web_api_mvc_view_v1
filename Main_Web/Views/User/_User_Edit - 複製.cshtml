@@ -1,0 +1,130 @@
+﻿@using Main_Common.Enum
+@model Main_Common.Model.Data.User.User_Model
+@{
+    var today = DateTime.UtcNow.AddHours(8);
+    var permissionDTO = (Main_Common.Model.Tool.Permission_DTO)ViewBag.Permission_DTO; //權限DTO
+}
+
+
+<form asp-action="Edit_User" asp-controller="User"
+      id="form_Edit_User"
+      data-ajax="true" data-ajax-method="Post" data-ajax-success="Edit_User_Result(data)"
+      data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()" >
+    <div class="card mb-3">
+        <!--Card Header-->
+        <div class="card-header padd-lr-7" style="cursor: pointer" data-bs-toggle="collapse" data-bs-target="#clps_Edit_User">
+            <h4 style="margin:0px">修改使用者</h4>
+        </div>
+        <div id="clps_Edit_User" class="collapse show">
+            <!--Card Body-->
+            <div class="card-body padd-lr-7">
+                <div>
+                    <input asp-for="Id" type="hidden" id="Id" class="_Id" />
+                    <input asp-for="CRUD" type="hidden" id="CRUD" class="_CRUD" />
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="CompanyId" class="control-label">公司</label>
+                            <input asp-for="CompanyId" type="text" id="CompanyId" 
+                                   class="_CompanyId form-control w-100 bg-disable"
+                                   placeholder="請輸入" title="公司" readonly="readonly" />
+                            <span asp-validation-for="CompanyId" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="No" class="control-label">代號</label>
+                            <input asp-for="No" type="text" id="No" 
+                                   class="_No form-control w-100 bg-disable"
+                                   style=""
+                                   maxlength="" placeholder="請輸入" title="代號" readonly="readonly" />
+                            <span asp-validation-for="No" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label">名稱</label>
+                            <input asp-for="Name" type="text" id="Name" 
+                                   class="_Name form-control w-100"
+                                   style="" 
+                                   maxlength="" placeholder="請輸入" title="名稱" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Password" class="control-label">密碼(開發中，暫不加密)</label>
+                            <input asp-for="Password" type="text" id="Password" 
+                                   class="_Password form-control w-100"
+                                   style=""
+                                   maxlength="" placeholder="請輸入" title="密碼" />
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Mail" class="control-label">信箱</label>
+                            <input asp-for="Mail" type="text" id="Mail" 
+                                   class="_Mail form-control w-100"
+                                   style=""
+                                   placeholder="請輸入" title="信箱" />
+                            <span asp-validation-for="Mail" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="row" style="display:none">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="IsStop" for="IsStop_Edit" class="form-check-label">是否停用</label>
+                            <input asp-for="IsStop" type="checkbox" id="IsStop_Edit" class="_IsStop form-check-input" placeholder="請輸入" title="是否停用" />
+                            <span asp-validation-for="IsStop" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Rem" class="control-label">備註</label>
+                            <textarea asp-for="Rem" type="text" id="Rem" 
+                                      class="_Rem form-control w-100"
+                                      style=""
+                                      placeholder="請輸入" title="備註"></textarea>
+                            <span asp-validation-for="Rem" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+            </div>
+
+            <!--Card Footer-->
+            <div class="card-footer text-muted padd-lr-7">
+                <Button type="submit" class="btn btn-primary" onclick="">保存</Button>
+
+                <a href="@Url.Action("Edit_User_View", "User", new { key = Model.Id })"
+                   data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowModal_Edit_User(data)"
+                   data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()"
+                   class="_btnReset btn btn-primary">
+                    重整
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        var form = $("#form_Edit_User");
+
+        // 重新綁定表單驗證
+        myaa_RefreshUnobtrusive_ById(form.attr("id"));
+    });
+</script>

@@ -1,0 +1,36 @@
+
+== VS 2022 ==
+== .net 6.0 ==
+== jquery 3.5.1 ==
+== bootstrap 5.2.3 ==
+
+== 連線資訊設定 (目前無該功能) ==
+固定單一連線群組，系統固定抓取有勾[預選]的[連線群組]。
+
+== 公司 (目前無該功能) ==
+固定單一公司，該公司由系統內部生成，不開放額外新增，故若從DB內手動鍵入第2筆資料，造成系統異常，一概不負責。
+
+== WebApi (目前無該功能) ==
+Main_Web：除Web本體，還包含Api。
+
+== Api說明頁面 (目前無該功能) ==
+專案Function、Model等相關說明文字如果有改動，
+請記得產生相關xml文件後，將該文件移至「Main_Web/App_Data/ApiHelpDocument」，
+API說明文件有綁定該路徑的文件用作Web上說明頁面的內容。
+
+參考於 2023.01.17
+https://blog.miniasp.com/post/2013/11/05/Creating-ASPNET-Web-API-Help-Pages-for-ASPNET-MVC-4
+
+== 套件檔案變更標記 ==
+startbootstrap-sb-admin套件的scripts.js檔案，內容有變更。
+
+== 隱藏功能 ==
+開發人員設定功能進入點，統一隱藏在前台Home View，開關按鈕隱藏在Home右下角。
+有設定進入密碼(建議)。
+
+
+==使用 bearer "token"==
+
+在swagger測試 輸入 bearer空格token
+bearer "token"
+

@@ -1,0 +1,141 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Main_Web</title>
+
+    @*<link href="~/lib/bootstrap-5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Main_Web.styles.css" asp-append-version="true" />
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap-5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>*@
+
+    <!-- Bundle_Tool ==================================================================-->
+    <link rel="stylesheet" href="~/Main_Web.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- jquery 3.5.1 ==================================================================-->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery.unobtrusive-ajax/jquery.unobtrusive-ajax.min.js"></script>
+
+    <!-- bootstrap (5.2.3) ==================================================================-->
+    <link href="~/lib/bootstrap-5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/bootstrap-5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Font Awesome Icon (6.4.0) -->
+    <link href="~/lib/fontawesome-free-6.4.0-web/css/all.min.css" rel="stylesheet" />
+    <script src="~/lib/fontawesome-free-6.4.0-web/js/all.min.js"></script>
+
+    <!-- SB-Admin (bootstrap 5.2.3) Layout套版-->
+    <link href="~/lib/layout/startbootstrap-sb-admin/dist/css/styles.css" rel="stylesheet" />
+    <script src="~/lib/layout/startbootstrap-sb-admin/dist/js/scripts.js"></script>
+
+    <!-- sweetalert2 (Alert套件) -->
+    <link href="~/lib/sweetalert2/dist/sweetalert2.min.css" rel="stylesheet" />
+    <script src="~/lib/sweetalert2/dist/sweetalert2.all.min.js"></script>
+
+    <!-- select2 (下拉選單套件) -->
+    <link href="~/lib/select2-4.1.0-rc.0/css/select2.min.css" rel="stylesheet" />
+    <script src="~/lib/select2-4.1.0-rc.0/js/select2.min.js"></script>
+
+    <!-- Bundle_MyTool ==================================================================-->
+    <!-- MyTool 通用(CSS) -->
+    <link href="~/css/my_css/my-common.css" rel="stylesheet" />
+
+    <!-- MyTool 通用(JS) -->
+    <script src="~/js/my_js/myaa-common.js"></script>
+    <script src="~/js/my_js/myaa-htmlaction.js"></script>
+    <script src="~/js/my_js/myaa-select.js"></script>
+</head>
+<body class="" style="width:99.5%">
+    <!-- 讀取時的載入動畫 -->
+    <div id="loading" class="loadingLayout">
+        <div style="margin:auto">
+            <div class="spinner-border text-light" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Navbar -->
+    @*<partial name="_Layout_TopBar"></partial>*@
+    <a href="@Url.Action("GetTopBar_View", "Home")"
+       data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowView_HtmlActionLink(this, data)"
+       class="_LoadMark_ByReady btn btn-primary"
+       style="display:none">
+        Show View TopBar
+    </a>
+
+    <!-- Side Navbar + Body Content -->
+    <div id="layoutSidenav">
+        <!-- Side Navbar -->
+        <div id="layoutSidenav_nav">
+            @*<partial name="_Layout_SideBar"></partial>*@
+            <a href="@Url.Action("GetSideBar_View", "Home")"
+               data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowView_HtmlActionLink(this, data)"
+               class="_LoadMark_ByReady btn btn-primary"
+               style="display:none">
+                Show View SideBar
+            </a>
+        </div>
+
+        <!-- Body Content -->
+        <div id="layoutSidenav_content" style="top:0px">
+            <main>
+                <div class="container-fluid padd-lr-7">
+                    @RenderBody()
+                </div>
+            </main>
+
+            <!-- Footer Content -->
+            <footer class="py-2 bg-light">
+                <div class="container-fluid">
+                    <div class="d-flex align-items-center justify-content-between small">
+                        @*<partial name="_Layout_Footer"></partial>*@
+                        <a href="@Url.Action("GetFooter_View", "Home")"
+                           data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowView_HtmlActionLink(this, data)"
+                           class="_LoadMark_ByReady btn btn-primary"
+                           style="display:none">
+                            Show View Footer
+                        </a>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+
+    <!-- Layout Script Start ==================================================================-->
+    <!-- ready -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // 執行有Action Mark的超連結
+            // 這個一定要執行在DOMContentLoaded裡面，因為主板有個按鈕事件的綁定是在DOMContentLoaded執行。
+            Execute_LoadMark_ByReady();
+        });
+
+        $(document).ready(function () {
+
+        });
+    </script>
+
+    <!-- 【sweetalert2】錯誤訊息 -->
+    @if (TempData["Message"] != null)
+    {
+        // 延遲0.25秒後執行
+        <script>
+            setTimeout(function () {
+                alert("@TempData["Message"]");
+            }, 250);
+        </script>
+    }
+
+    <!-- View Script Start ==================================================================-->
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

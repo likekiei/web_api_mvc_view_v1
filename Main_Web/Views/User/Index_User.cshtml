@@ -1,0 +1,355 @@
+﻿@{
+    ViewData["Title"] = "維護使用者資料";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<!-- Html============================================================-->
+<section>
+    <div class="mt-4" style="display:inline-flex">
+        <h1>維護使用者資料</h1>
+        <a href="javascript:void(0)" DisplayStatus="hide" onclick="myaa_DevelopMemo_Toggle(this, $(this).closest('section').find('._mDevelopMemo'))"><i class="fas fa-question-circle"></i></a>
+    </div><hr style="border-width:3px" />
+
+    <!--頁籤-->
+    <nav>
+        <div id="div_Tab" class="nav nav-tabs mb-3">
+            <button id="Tab_UserList" class="nav-link active" type="button" data-bs-toggle="tab" data-bs-target="#TabView_UserList" onclick="">清單</button>
+            <button id="Tab_CreateUser" class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#TabView_CreateUser" onclick="">新增</button>
+            <button id="Tab_EditUser" class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#TabView_EditUser" onclick="">修改</button>
+            @*<button id="Tab_User_Import" class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#TabView_User_Import" onclick="">匯入(員工檔)</button>*@
+        </div>
+    </nav>
+
+    <!--頁籤內容-->
+    <div id="divTabContent" class="tab-content">
+        <!--使用者清單查詢頁籤-->
+        <div id="TabView_UserList" class="tab-pane fade show active">
+            <div id="" class="_content _wrap mb-3">
+                <!-- 使用者清單查詢-View -->
+                <div id="divFilterView_UserList">
+                    <a href="@Url.Action("FilterView_UserList", "User")"
+                       data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowView_HtmlActionLink(this, data)"
+                       class="_LoadMark_ByReady btn btn-primary">
+                        生成查詢畫面
+                    </a>
+                </div><hr style="border-width:3px" />
+
+                <!-- 使用者-結果View -->
+                <div id="divUserList" class="mb-2"></div>
+            </div>
+        </div>
+
+        <!--使用者新增頁籤-->
+        <div id="TabView_CreateUser" class="tab-pane fade">
+            <div id="" class="_content">
+                <a href="@Url.Action("CreateView_User", "User")"
+                   data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowTab_CreateUser(data)"
+                   class="_LoadMark_ByClickCall btn btn-primary">
+                    生成新增畫面
+                </a>
+            </div>
+        </div>
+
+        <!--使用者修改頁籤-->
+        <div id="TabView_EditUser" class="tab-pane fade">
+            <div id="" class="_content">
+            </div>
+        </div>
+    </div>
+
+    @*<div class="_mDevelopMemo _mHideMemo alert alert-danger" style="display:none" role="alert">
+    <ul style="margin:0">
+    <li>【PS】沒有特別設計輸入表單，如要測試請自行從Request處變更or程式改寫。</li>
+    </ul>
+    </div>*@
+</section>
+
+<!-- Modal============================================================-->
+@*<!-- 上傳使用者照片_Modal -->
+<div id="Modal_Upload_UserPhoto" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="Content_Upload_UserPhoto" class="modal-dialog" style="display:flex" role="document">
+    </div>
+</div>*@
+
+<!--全域變數宣告============================================================-->
+<script>
+    var $PageSize = 30; // 每頁筆數
+    //var $PageNumber; //當前所在節點Id
+    // var $TriggerElm; //觸發元件
+    // var $NowForm_UploadFile; //當前表單
+</script>
+
+<!--初始化建構============================================================-->
+<!--初始化事件-->
+<script>
+    $(document).ready(function () {
+        // 查詢使用者
+        //Filter_UserList();
+
+        //查詢按鈕-收合變更Icon
+        //CollapseChangeIcon("clps_User_Filter", "clps_User_Filter_icon", "fas fa-angle-down", "fas fa-angle-up");
+    })
+</script>
+
+<!--Tab事件-->
+<script>
+    $(document).ready(function () {
+        //event.target // 目標 tab btn
+        //event.relatedTarget // 當前 tab btn
+
+        // 切換畫面後的事件綁定(新增頁籤)
+        $("#Tab_CreateUser").on("shown.bs.tab", function (event) {
+            // 執行頁面加載
+            var targetId = $(event.target).attr("data-bs-target");
+            Execute_LoadMark($(targetId), "_LoadMark_ByClickCall");
+        })
+    });
+</script>
+
+<!--Modal事件-->
+<script>
+    //$(document).ready(function () {
+    //    //審核人清單頁面-hidd事件
+    //    $("#Modal_AuditStock_List").on("hidden.bs.modal", function () {
+    //        $("#Content_AuditStock_List").empty();
+    //    });
+    //});
+</script>
+
+<!--Script============================================================-->
+@section Scripts {
+    <!--【查詢】使用者查詢-->
+    <script>
+        function Filter_UserList() {
+            $("#form_FilterUserList").submit();
+        }
+    </script>
+
+    <!--【查詢】使用者查詢的請求回傳結果-->
+    <script>
+        function Result_FilterUserList(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    } else { //失敗
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    }
+                } else { //回傳PartialView
+                    $("#divUserList").empty();
+                    $("#divUserList").append(response);
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【新增】顯示使用者新增畫面(頁籤)-->
+    <script>
+        function ShowTab_CreateUser(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        //myaa_ComAlert(response.message, null, null, null);
+                    } else { //失敗
+                        myaa_ComAlert(response.message, null, null, null);
+                    }
+                } else { //回傳PartialView
+                    var target = $("#TabView_CreateUser").find("._content");
+                    $("#Tab_CreateUser").click(); //切換頁籤
+                    target.empty();
+                    target.append(response);
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【新增】使用者新增的請求回傳結果-->
+    <script>
+        function Result_CreateUser(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                        $("#TabView_CreateUser").find("._btnReset").click(); //刷新新增頁面
+                        Filter_UserList();
+                    } else { //失敗
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    }
+                } else { //回傳PartialView
+                    myaa_ComFail();
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【修改】顯示使用者修改畫面-->
+    <script>
+        function ShowTab_EditUser(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        //myaa_ComAlert(response.message, null, null, null);
+                    } else { //失敗
+                        myaa_ComAlert(response.message, null, null, null);
+                    }
+                } else { //回傳PartialView
+                    var target = $("#TabView_EditUser").find("._content");
+                    $("#Tab_EditUser").click(); //切換頁籤
+                    target.empty();
+                    target.append(response);
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【修改】使用者修改的請求回傳結果-->
+    <script>
+        function Result_EditUser(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                        $("#TabView_EditUser").find("._btnReset").click(); //刷新修改頁面
+                        Filter_UserList();
+                    } else { //失敗
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    }
+                } else { //回傳PartialView
+                    myaa_ComFail();
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【刪除】使用者刪除-->
+    <script>
+        function Delete_User(e) {
+            myaa_ComConfirm_Swal_Submit("【刪除確認】", "此操作將永久刪除該資料", null, e, null);
+        }
+    </script>
+
+    <!--【刪除】使用者刪除的請求回傳結果-->
+    <script>
+        function Result_DeleteUser(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                        Filter_UserList();
+                    } else { //失敗
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    }
+                } else { //回傳PartialView
+                    myaa_ComFail();
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!-- 建構Select2(公司) -->
+    <script>
+        //【formID：所屬表單】【isEmpty：是否先清空】【defaultVal：預選值】【targetID：指定目標ID】
+        function InitSelect2_Company(formID, isEmpty, defaultVal, targetID) {
+            var form = $("#" + formID);
+            //var companyId = form.find("._CompanyId").val();
+
+            // 目標元素
+            var targetElms = null;
+
+            // 取要處理的目標元素
+            // [條件：有無指定特定目標][T：有][F：無]
+            if (targetID !== undefined && targetID !== null) {
+                targetElms = form.find("#" + targetID);
+            } else {
+                targetElms = form.find("._CompanyId._select2");
+            }
+
+            // 客戶，查有，執行
+            if (targetElms.length != 0) {
+                // 走訪建構
+                targetElms.each(function (index, element) {
+                    var element = $(element);
+
+                    // 清空
+                    if (isEmpty !== undefined && isEmpty == true) {
+                        element.empty();
+                    }
+
+                    // 建構用值
+                    var initObj = {
+                        ControllerName: "Z_Common",
+                        ActionName: "SimpleDropList_Company",
+                        IsEnable: true,
+                        PageSize: $PageSize,
+                        IdSelected: defaultVal,
+                        CompanyId: null,
+                    }
+
+                    // 建構Select2
+                    //myaa_InitSelect2_Base(element);
+                    myaa_InitSelect2_BaseAjax(element, initObj);
+                });
+            }
+        }
+    </script>
+
+    <!-- 建構Select2(角色) -->
+    <script>
+        //【formID：所屬表單】【isEmpty：是否先清空】【defaultVal：預選值】【targetID：指定目標ID】
+        function InitSelect2_Role(formID, isEmpty, defaultVal, targetID) {
+            var form = $("#" + formID);
+            var companyId = form.find("._CompanyId").val();
+
+            // 目標元素
+            var targetElms = null;
+
+            // 取要處理的目標元素
+            // [條件：有無指定特定目標][T：有][F：無]
+            if (targetID !== undefined && targetID !== null) {
+                targetElms = form.find("#" + targetID);
+            } else {
+                targetElms = form.find("._RoleId._select2");
+            }
+
+            // 客戶，查有，執行
+            if (targetElms.length != 0) {
+                // 走訪建構
+                targetElms.each(function (index, element) {
+                    var element = $(element);
+
+                    // 清空
+                    if (isEmpty !== undefined && isEmpty == true) {
+                        element.empty();
+                    }
+
+                    // 建構用值
+                    var initObj = {
+                        ControllerName: "Z_Common",
+                        ActionName: "SimpleDropList_Role",
+                        IsEnable: true,
+                        PageSize: $PageSize,
+                        IdSelected: defaultVal,
+                        CompanyId: companyId,
+                    }
+
+                    // 建構Select2
+                    //myaa_InitSelect2_Base(element);
+                    myaa_InitSelect2_BaseAjax(element, initObj);
+                });
+            }
+        }
+    </script>
+}
+

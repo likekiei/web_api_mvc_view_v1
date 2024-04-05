@@ -1,0 +1,97 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main_Web", "Main_Web\Main_Web.csproj", "{3950D45D-D405-4B71-9451-05FB88F3F35F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main_Common", "Main_Common\Main_Common.csproj", "{61706DC3-9B25-470F-96A2-BFB5A9D6FD6E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DB_Library_ByMain", "DB_Library_ByMain", "{5412021E-F94C-4377-AC3E-C93C54A252BE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main_EF", "Main_EF\Main_EF.csproj", "{57322650-BAA9-4DA3-9A7C-6091E14A8DDF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main_Service", "Main_Service\Main_Service.csproj", "{54951C5D-92E7-4152-BCFF-69D6D8DD356A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "【注意事項】", "【注意事項】", "{FDAB463F-5178-41FA-88B5-60CA9ACC6D11}"
+	ProjectSection(SolutionItems) = preProject
+		注意事項.txt = 注意事項.txt
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Main_Resources", "Main_Resources\Main_Resources.csproj", "{362EEC5B-D2B4-41AD-825F-8B6AABCCDE4D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{09261022-9C57-49E3-80A7-1D6BF442B19D}"
+	ProjectSection(SolutionItems) = preProject
+		Resources.Designer.t4 = Resources.Designer.t4
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_API", "Web_API\Web_API.csproj", "{13181C31-F49E-45B0-9995-FCCB03CE50E2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web_API_APP", "Web_API_APP\Web_API_APP.csproj", "{626F8965-21E2-489A-B0C0-F40E5A5B432D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ERP", "ERP", "{36FA3D66-BAB9-4BD7-954A-27C0A439C5E9}"
+	ProjectSection(SolutionItems) = preProject
+		DbFirst.cs = DbFirst.cs
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERP_EF", "ERP_EF\ERP_EF.csproj", "{CFA51FF7-F5C5-4194-92E7-F64486EB7BBB}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ERP_APP", "ERP_APP\ERP_APP.csproj", "{ABCE3C6A-686E-47D1-8436-2E36E8BB019D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3950D45D-D405-4B71-9451-05FB88F3F35F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3950D45D-D405-4B71-9451-05FB88F3F35F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3950D45D-D405-4B71-9451-05FB88F3F35F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3950D45D-D405-4B71-9451-05FB88F3F35F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61706DC3-9B25-470F-96A2-BFB5A9D6FD6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61706DC3-9B25-470F-96A2-BFB5A9D6FD6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61706DC3-9B25-470F-96A2-BFB5A9D6FD6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61706DC3-9B25-470F-96A2-BFB5A9D6FD6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57322650-BAA9-4DA3-9A7C-6091E14A8DDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57322650-BAA9-4DA3-9A7C-6091E14A8DDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57322650-BAA9-4DA3-9A7C-6091E14A8DDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57322650-BAA9-4DA3-9A7C-6091E14A8DDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{54951C5D-92E7-4152-BCFF-69D6D8DD356A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{54951C5D-92E7-4152-BCFF-69D6D8DD356A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{54951C5D-92E7-4152-BCFF-69D6D8DD356A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{54951C5D-92E7-4152-BCFF-69D6D8DD356A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{362EEC5B-D2B4-41AD-825F-8B6AABCCDE4D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{362EEC5B-D2B4-41AD-825F-8B6AABCCDE4D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{362EEC5B-D2B4-41AD-825F-8B6AABCCDE4D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{362EEC5B-D2B4-41AD-825F-8B6AABCCDE4D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13181C31-F49E-45B0-9995-FCCB03CE50E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13181C31-F49E-45B0-9995-FCCB03CE50E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13181C31-F49E-45B0-9995-FCCB03CE50E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13181C31-F49E-45B0-9995-FCCB03CE50E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{626F8965-21E2-489A-B0C0-F40E5A5B432D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{626F8965-21E2-489A-B0C0-F40E5A5B432D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{626F8965-21E2-489A-B0C0-F40E5A5B432D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{626F8965-21E2-489A-B0C0-F40E5A5B432D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CFA51FF7-F5C5-4194-92E7-F64486EB7BBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CFA51FF7-F5C5-4194-92E7-F64486EB7BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CFA51FF7-F5C5-4194-92E7-F64486EB7BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CFA51FF7-F5C5-4194-92E7-F64486EB7BBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABCE3C6A-686E-47D1-8436-2E36E8BB019D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABCE3C6A-686E-47D1-8436-2E36E8BB019D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABCE3C6A-686E-47D1-8436-2E36E8BB019D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABCE3C6A-686E-47D1-8436-2E36E8BB019D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{57322650-BAA9-4DA3-9A7C-6091E14A8DDF} = {5412021E-F94C-4377-AC3E-C93C54A252BE}
+		{54951C5D-92E7-4152-BCFF-69D6D8DD356A} = {5412021E-F94C-4377-AC3E-C93C54A252BE}
+		{CFA51FF7-F5C5-4194-92E7-F64486EB7BBB} = {36FA3D66-BAB9-4BD7-954A-27C0A439C5E9}
+		{ABCE3C6A-686E-47D1-8436-2E36E8BB019D} = {36FA3D66-BAB9-4BD7-954A-27C0A439C5E9}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		RESX_NeutralResourcesLanguage = zh-TW
+		SolutionGuid = {2716E174-F19B-4072-904B-D120B2A268B3}
+	EndGlobalSection
+EndGlobal

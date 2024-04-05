@@ -1,0 +1,50 @@
+﻿@using HtmlHelpers.BeginCollectionItemCore;
+@model List<Main_Common.Model.Data.FunctionCode.FunctionCode_Model>
+@{
+    var today = DateTime.UtcNow.AddHours(8);
+}
+
+@{
+    //string _TF_IsHide_ID = null; //用來保存是否隱藏元件的ID，Script要用。
+}
+
+@for (int i = 0; i < Model.Count(); i++)
+{
+    <tr class="_Row">
+        @using (Html.BeginCollectionItem("FunctionCodeList"))
+        {
+            //_TF_IsHide_ID = Html.IdFor(m => Model.ElementAt(i).IsHide).ToString();
+            <td></td>
+            @* <td style="text-align:center">
+                @Html.HiddenFor(m => Model.ElementAt(i).CRUD, new { @class = "_TF_CRUD" })
+                @Html.HiddenFor(m => Model.ElementAt(i).Id, new { @class = "_TF_Id" })
+                @Html.HiddenFor(m => Model.ElementAt(i).RoleId, new { @class = "_TF_RoleId" })
+                @Html.HiddenFor(m => Model.ElementAt(i).FunctionCodeId, new { @class = "_TF_FunctionCodeId" })
+                @Html.HiddenFor(m => Model.ElementAt(i).CompanyId, new { @class = "_TF_CompanyId" })
+            </td>
+            <td style="padding-left:5px; padding-right:5px">
+                @((int)Model.ElementAt(i).FunctionCodeId)
+            </td>
+            <td style="padding-left:5px; padding-right:5px">
+                @Model.ElementAt(i).FunctionCodeId.ToString()
+            </td>
+            <td style="padding-left:5px; padding-right:5px; text-align:center">
+                @Html.HiddenFor(m => Model.ElementAt(i).IsStop, new { @class = "_TF_IsStop" })
+                <div class="checkbox-textbox-m">
+                    <input type="checkbox" id="@("IsEnable_" + (int)Model.ElementAt(i).FunctionCodeId)" @(Model.ElementAt(i).IsStop ? "" : "checked")
+                           class="form-check-input"
+                           onclick="myaa_Checkbox_SetInput_CheckedVal(this, $(this).closest('td').find('._TF_IsStop'), true)"
+                           data-chkbox-shiftsel="@(Model.ElementAt(i).RoleId.HasValue ? "chk_FunctionCodeList_ByCreate" : "chk_FunctionCodeList_ByEdit")">
+                    <label class="form-check-label" for="@("IsEnable_" + (int)Model.ElementAt(i).FunctionCodeId)"></label>
+                </div>
+            </td> *@
+        }
+    </tr>
+}
+
+<script>
+    $(document).ready(function () {
+        //myaa_Init_Checkbox_Shiftsel($("#Table_FunctionCode_ByCreate"));
+        //myaa_Init_Checkbox_Shiftsel($("#Table_FunctionCode_ByEdit"));
+    });
+</script>

@@ -1,0 +1,24 @@
+﻿<script>
+    $(document).ready(function () {
+        //$("#Table_Company").footable();
+
+        //// 建構FreezeTable
+        //$("#Table_Company").closest("._FreezeTable").freezeTable({
+        //    "scrollable": true,
+        //    //fixedNavbar: "nav",
+        //    freezeColumn: true,
+        //    columnNum: 2,
+        //});
+
+        $("._divPage_CompanyList").find("a").each(function (index, elemt) {
+            //$(elemt).addClass("page-link");
+            $(elemt).removeAttr("data-ajax-update");
+        });
+
+        // 頁數，如果抓不到，默認1
+        var tempPageNumber = $("._divPage_CompanyList").find(".active").text();
+        tempPageNumber = myaa_IsNullOrEmpty(tempPageNumber) ? "1" : tempPageNumber;
+
+        $("#form_Filter_Company").find("._PageNumber").val(tempPageNumber); //取得當前頁數
+    });
+</script>

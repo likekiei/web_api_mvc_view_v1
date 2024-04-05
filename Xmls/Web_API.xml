@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Web_API</name>
+    </assembly>
+    <members>
+        <member name="T:Web_API.Controllers.BaseAPIController">
+            <summary>
+            API用，Controller前置處理
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.BaseAPIController._LoginService_Main">
+            <summary>
+            【Main Service】登入相關
+            </summary>
+        </member>
+        <member name="P:Web_API.Controllers.BaseAPIController._UserSession_Model">
+            <summary>
+            登入者資訊
+            </summary>
+        </member>
+        <member name="M:Web_API.Controllers.BaseAPIController.#ctor(Main_Service.Service.S_Login.LoginService_Main,Main_Common.Model.Account.UserSession_Model)">
+            <param name="logService_Main">Log相關</param>
+            <param name="loginService_Main">登入相關</param>
+        </member>
+        <member name="T:Web_API.Controllers.LoginController">
+            <summary>
+            登入相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.LoginController._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.LoginController._CompanyService_Main">
+            <summary>
+            【Main Service】公司相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.LoginController._LogService_Main">
+            <summary>
+            【Main Service】Log相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.LoginController._LoginService_Main">
+            <summary>
+            【Main Service】登入相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.LoginController._UserService_Main">
+            <summary>
+            【Main Service】使用者相關
+            </summary>
+        </member>
+        <member name="M:Web_API.Controllers.LoginController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,Main_Common.Model.Main.MainSystem_DTO,Main_Service.Service.S_Company.CompanyService_Main,Main_Service.Service.S_Log.LogService_Main,Main_Service.Service.S_Login.LoginService_Main,Main_Service.Service.S_User.UserService_Main)">
+            <param name="loginService_Main">登入相關</param>
+            <param name="userService_Main">使用者相關</param>
+        </member>
+        <member name="M:Web_API.Controllers.LoginController.GetToken(Main_Common.Model.Account.Api_Login_Model)">
+            <summary>
+            取得登入結果及Token
+            </summary>
+            <param name="input">登入資料</param>
+            <returns></returns>      
+        </member>
+        <member name="T:Web_API.Controllers.TiProductInspectionController">
+            <summary>
+            製成品送檢單
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.TiProductInspectionController._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.TiProductInspectionController._LogService_Main">
+            <summary>
+            【Main Service】Log相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.TiProductInspectionController._Log_Service">
+            <summary>
+            【API Service】Log相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.TiProductInspectionController._Product_Inspection_Serveice_Erp">
+            <summary>
+            【ERP】製成品送檢單相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.TiProductInspectionController._MF_TI_Z_Service_Erp">
+            <summary>
+            【ERP】製成品送檢單 自訂義欄位檢查
+            </summary>
+        </member>
+        <member name="M:Web_API.Controllers.TiProductInspectionController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,Main_Common.Model.Main.MainSystem_DTO,Main_Service.Service.S_User.UserService_Main,Main_Service.Service.S_Login.LoginService_Main,Web_API_APP.Service.Login_Service,ERP_APP.Service.S_Product_Inspection.Product_Inspection_Serveice_Erp,ERP_APP.Service.S_Product_Inspection.MF_TI_Z_Service_Erp,Main_Service.Service.S_Log.LogService_Main,Web_API_APP.Service.Log_Service)">
+            <param name="logService_Main">Log相關</param>
+            <param name="loginService_Main">登入相關</param>
+        </member>
+        <member name="M:Web_API.Controllers.TiProductInspectionController.CreateProductInspection(Main_Common.Model.DTO.TI_ProductInspection.MfTiProductInspection_DTO)">
+            <summary>
+            建立單筆製成品送檢單
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Web_API.Controllers.TyProductAcceptanceController">
+            <summary>
+            生產繳庫驗收單
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.TyProductAcceptanceController._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.TyProductAcceptanceController._LogService_Main">
+            <summary>
+            【Main Service】Log相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.TyProductAcceptanceController._Log_Service">
+            <summary>
+            【API Service】Log相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.TyProductAcceptanceController._MF_TY_Service_Erp">
+            <summary>
+            【ERP】生產繳庫驗收單相關
+            </summary>
+        </member>
+        <member name="M:Web_API.Controllers.TyProductAcceptanceController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,Main_Common.Model.Main.MainSystem_DTO,Main_Service.Service.S_User.UserService_Main,Main_Service.Service.S_Login.LoginService_Main,Web_API_APP.Service.Login_Service,ERP_APP.Service.S_MF_TY.MF_TY_Service_Erp,ERP_APP.Service.S_MF_TY.MF_TY_Z_Service_Erp,Main_Service.Service.S_Log.LogService_Main,Web_API_APP.Service.Log_Service)">
+            <param name="logService_Main">Log相關</param>
+            <param name="loginService_Main">登入相關</param>
+        </member>
+        <member name="M:Web_API.Controllers.TyProductAcceptanceController.CreateProductAcceptance(Main_Common.Model.DTO.TY_ProductAcceptance.MfTyProductAcceptance_DTO)">
+            <summary>
+            建立單筆繳庫驗收單
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Web_API.Controllers.WorkOrderController">
+            <summary>
+            製令單
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.WorkOrderController._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.WorkOrderController._LogService_Main">
+            <summary>
+            【Main Service】Log相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.WorkOrderController._Log_Service">
+            <summary>
+            【API Service】Log相關
+            </summary>
+        </member>
+        <member name="F:Web_API.Controllers.WorkOrderController._Word_Order_Service_Erp">
+            <summary>
+            【ERP】製令單相關
+            </summary>
+        </member>
+        <member name="M:Web_API.Controllers.WorkOrderController.#ctor(Microsoft.AspNetCore.Http.IHttpContextAccessor,Main_Common.Model.Main.MainSystem_DTO,Main_Service.Service.S_User.UserService_Main,Main_Service.Service.S_Login.LoginService_Main,Web_API_APP.Service.Login_Service,ERP_APP.Service.S_WORD_ORDER.Word_Order_Service_Erp,Main_Service.Service.S_Log.LogService_Main,Web_API_APP.Service.Log_Service)">
+            <param name="logService_Main">Log相關</param>
+            <param name="loginService_Main">登入相關</param>
+        </member>
+        <member name="M:Web_API.Controllers.WorkOrderController.GetWorkOrders(Main_Common.Model.DTO.MO_WorkOrder.MoWorkOrder_Filter)">
+            <summary>
+            依日期取得製令單資料
+            </summary>
+            <param name="input"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Web_API.Filters.Logs">
+            <summary>
+            驗證是否有使用該方法的權限
+            </summary>
+            <remarks>傳入參數(Arguments)有一定的順序規則，請確保傳入與接收參數的順序是對應的</remarks>
+        </member>
+        <member name="F:Web_API.Filters.Logs._MainSystem_DTO">
+            <summary>
+            【DTO】主系統資料
+            </summary>
+        </member>
+        <member name="F:Web_API.Filters.Logs._Log_Service">
+            <summary>
+            【Main Service】Log相關
+            </summary>
+        </member>
+        <member name="M:Web_API.Filters.Logs.#ctor(Main_Common.Model.Main.MainSystem_DTO,Web_API_APP.Service.Log_Service)">
+            <summary>
+            建構
+            </summary>
+            <remarks>
+            <para>傳入參數順序(執行動作, 執行目標, 訊息)</para>
+            <para>傳入參數有一定的順序規則，請確保傳入與接收參數的順序是對應的</para>
+            </remarks>
+            <param name="actionEnum">執行動作</param>
+            <param name="actionTargetEnum">執行目標</param>
+            <param name="tempDataDictionaryFactory">TempData相關操作</param>
+            <param name="mainSystem_DTO">主系統資料</param>
+            <param name="toolCom">通用工具</param>
+        </member>
+        <member name="M:Web_API.Filters.Logs.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            在執行 Action 之前執行
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Web_API.Filters.Logs.OnResultExecuted(Microsoft.AspNetCore.Mvc.Filters.ResultExecutedContext)">
+            <summary>
+            在執行 Action 之後執行
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Web_API.Filters.Logs.ReadablePropertiesOnlyResolver">
+            <summary>
+            JsonSerializer 讀取屬性的解析器設定
+            </summary>
+        </member>
+        <member name="M:Web_API.Filters.Logs.ReadablePropertiesOnlyResolver.CreateProperty(System.Reflection.MemberInfo,Newtonsoft.Json.MemberSerialization)">
+            <summary>
+            建立可呈現（解析）的屬性
+            </summary>
+            <returns>呈現的屬性</returns>
+        </member>
+        <member name="M:Web_API.Filters.Logs.GetClientIP">
+            <summary>
+            來源 IP
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API.Program.CreateHostBuilder(System.String[])">
+            <summary>
+            創建WebHost
+            </summary>
+            <param name="args"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Web_API.Startup.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            ConfigureServices
+            </summary>
+            <param name="services"></param>
+        </member>
+        <member name="M:Web_API.Startup.Configure(Microsoft.AspNetCore.Builder.IApplicationBuilder,Microsoft.AspNetCore.Hosting.IWebHostEnvironment)">
+            <summary>
+            Configure
+            </summary>
+            <param name="app"></param>
+            <param name="env"></param>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,156 @@
+﻿@using Main_Common.Enum
+@using Main_Common.Enum.E_ProjectType
+@model Main_Common.Model.Data.Company.Company_Model
+@{
+    var today = DateTime.UtcNow.AddHours(8);
+    var permissionDTO = (Main_Common.Model.Tool.Permission_DTO)ViewBag.Permission_DTO; //權限DTO
+}
+
+<form asp-action="Edit_Company" asp-controller="Company"
+      id="form_EditCompany"
+      data-ajax="true" data-ajax-method="Post" data-ajax-success="Result_EditCompany(data)"
+      data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()">
+    <div class="card mb-3">
+        <!--Card Header-->
+        <div class="card-header padd-lr-7" style="cursor: pointer" data-bs-toggle="collapse" data-bs-target="#clps_EditCompany">
+            <h4 style="margin:0px">修改公司</h4>
+        </div>
+        <div id="clps_EditCompany" class="collapse show">
+            <!--Card Body-->
+            <div class="card-body padd-lr-7">
+                <div>
+                    <input asp-for="CRUD" type="hidden" id="CRUD" class="_CRUD" />
+                    <input asp-for="Id" type="hidden" id="Id" class="_Id" />
+                </div>
+
+                @*<div class="row">
+                <div class="col-md-4">
+                <div class="form-group">
+                <label asp-for="CompanyId" class="control-label">公司</label>
+                <input asp-for="CompanyId" type="text"
+                id="CompanyId" class="_CompanyId form-control w-100 bg-disable"
+                style=""
+                placeholder="請輸入" title="公司" readonly="readonly" />
+                <span asp-validation-for="CompanyId" class="text-danger"></span>
+                </div><hr />
+                </div>
+                </div>*@
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="No" class="control-label">代號</label>
+                            <input asp-for="No" type="text"
+                                   id="No" class="_No form-control w-100"
+                                   style=""
+                                   maxlength="" placeholder="請輸入" title="代號" readonly/>
+                            <span asp-validation-for="No" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label">名稱</label>
+                            <input asp-for="Name" type="text"
+                                   id="Name" class="_Name form-control w-100"
+                                   style=""
+                                   maxlength="" placeholder="請輸入" title="名稱" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="CompanyLevelId" class="control-label">公司分級</label>
+                            <select asp-for="CompanyLevelId" asp-items="@(IEnumerable<SelectListItem>)ViewBag.DropList_CompanyLevel"
+                                    id="CompanyLevelId_ByEdit" class="_CompanyLevelId _select2 form-control w-100"
+                                    style=""
+                                    placeholder="請輸入" title="公司"></select>
+                            <span asp-validation-for="CompanyLevelId" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="EMail" class="control-label">信箱</label>
+                            <input asp-for="EMail" type="text"
+                                   id="Mail" class="_Mail form-control w-100"
+                                   style=""
+                                   placeholder="請輸入" title="信箱" />
+                            <span asp-validation-for="EMail" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="row" style="display:none">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="IsStop" for="IsStop_Edit" class="form-check-label">是否停用</label>
+                            <input asp-for="IsStop" type="checkbox"
+                                   id="IsStop_Edit" class="_IsStop form-check-input"
+                                   style=""
+                                   placeholder="請輸入" title="是否停用" />
+                            <span asp-validation-for="IsStop" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Rem" class="control-label">備註</label>
+                            <textarea asp-for="Rem" type="text"
+                                      id="Rem" class="_Rem form-control w-100"
+                                      style=""
+                                      placeholder="請輸入" title="備註"></textarea>
+                            <span asp-validation-for="Rem" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="_mDevelopMemo _mHideMemo alert alert-danger" style="display:none" role="alert">
+                    <ul style="margin:0">
+                        @*<li>【公司】欄位，只有登入者所屬公司等級為[最高級]，允許變更。</li>
+                        <li>【公司】欄位，連動[角色權限][部門][客戶]欄位。</li>*@
+                    </ul>
+                </div>
+            </div>  
+
+            <!--Card Footer-->
+            <div class="card-footer text-muted padd-lr-7">
+                <Button type="submit" class="btn btn-primary" onclick="">保存</Button>
+
+                <a href="@Url.Action("EditView_Company", "Company", new { key = Model.Id })"
+                   data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowTab_EditCompany(data)"
+                   data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()"
+                   class="_btnReset btn btn-primary">
+                    重整
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        var form = $("#form_EditCompany");
+
+        // 鎖定element
+        myaa_textbox_Disable_Toggle(form.find("._No"), true); // 公司代號
+        myaa_select_Disable_Toggle(form.find("._CompanyLevelId"), true); // 公司分級
+
+        //// 依公司等級，區分執行區塊
+        //switch ('@permissionDTO.CompanyLevelId') {
+        //    case '@E_CompanyLevel.最高級':
+        //        //Init_Select2_Company(form.attr("id"), false, @(Model.CompanyId ?? 0)); // 建構Select2
+        //        //select2_Disable_Toggle(form.find("._CompanyId"), false); //解鎖select2(公司)
+        //        break;
+        //    default:
+        //        //select2_Disable_Toggle(form.find("._CompanyId"), true); //禁用select2(公司)
+        //        break;
+        //}
+
+        // 重新綁定表單驗證
+        myaa_RefreshUnobtrusive_ById(form.attr("id"));
+    });
+</script>

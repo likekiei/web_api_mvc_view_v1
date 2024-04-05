@@ -1,0 +1,6 @@
+﻿@model List<Main_Common.Model.Data.FunctionCode.FunctionCode_Model>
+
+@for (var i = 0; i < Model.Count; i++)
+{
+    @Html.Partial("_FunctionCode_Row", Model[i])
+}

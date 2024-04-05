@@ -1,0 +1,66 @@
+﻿@model Main_Common.Model.Data.User.User_Filter
+
+@{
+    var today = DateTime.UtcNow.AddHours(8);
+    var permissionDTO = (Main_Common.Model.Tool.Permission_DTO)ViewBag.Permission_DTO; // 權限DTO
+}
+
+<!--查詢-->
+<div class="card mb-3">
+    <!--Card Header-->
+    <div class="card-header padd-lr-7" style="cursor: pointer" data-bs-toggle="collapse" data-bs-target="#clps_Filter_UserList">
+        <h4 style="margin:0px">查詢使用者</h4>
+    </div>
+    <div id="clps_Filter_UserList" class="collapse show">
+        <form asp-action="Filter_UserList" asp-controller="User"
+              id="form_Filter_UserList"
+              data-ajax="true" data-ajax-method="Post"
+              data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()"
+              data-ajax-failure="myaa_ComFail()" data-ajax-success="Filter_UserList_Result(data)">
+            <!--Card Body-->
+            <div class="card-body padd-lr-7">
+                <div>
+                    <input asp-for="PageNumber" type="hidden" value="1" id="PageNumber" class="_PageNumber" />
+                    <input asp-for="PageSize" type="hidden" value="10" id="PageSize" class="_PageSize" />
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="No" class="control-label">代號</label>
+                            <input asp-for="No" type="text" value="" id="No" class="_No form-control w-100" placeholder="請輸入" title="代號" />
+                            <span asp-validation-for="No" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label">名稱</label>
+                            <input asp-for="Name" type="text" value="" id="Name" class="_Name form-control w-100" placeholder="請輸入" title="名稱" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+            </div>
+
+            <!--Card Footer-->
+            <div class="card-footer text-muted padd-lr-7">
+                <Button type="submit" class="btn btn-primary" onclick="$(this).closest('form').find('._PageNumber').val(1)">
+                    <i class="fas fa-search" style="margin-right:5px"></i>查詢
+                </Button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!--初始化建構============================================================-->
+<script>
+    $(document).ready(function () {
+        var form = $("#form_Filter_UserList");
+
+        // 重新綁定表單驗證
+        myaa_RefreshUnobtrusive_ById(form.attr("id"));
+
+        // 查詢使用者
+        Filter_UserList();
+    })
+</script>

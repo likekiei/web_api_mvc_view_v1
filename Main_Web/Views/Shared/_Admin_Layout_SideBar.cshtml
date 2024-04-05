@@ -1,0 +1,98 @@
+﻿@*@using Main_Common.Enum;
+@model List<Main_Common.Enum.E_Function>*@
+
+<nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+    <!--不知道為什麼換專案之後，摺疊功能沒辦法用a.click()去觸發，所以改成隱藏Button(實際觸發摺疊)，然後a去觸發Button，並透過Cookie的值，去達成持續展開當前選取項目的功能-->
+    <div class="sb-sidenav-menu">
+        <div class="nav">
+            <!--後台主頁按鈕-->
+            @*<div class="sb-sidenav-menu-heading">Core</div>*@
+            <a id="Dashboard" class="nav-link _BarItem" href="@Url.Action("Index", "HomeAdmin")">
+                <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                Dashboard
+            </a>
+
+            <!--基礎資料相關-->
+            <div>
+                <div style="padding:0 10px">
+                    <hr style="margin:0; border:1px solid #e9ecef" />
+                </div>
+                <!--摺疊器-->
+                <div>
+                    <a class="nav-link collapsed" href="javascript:void(0)" onclick="$('#btn_SideBarItem_L1_1').click()">
+                        <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
+                        基礎資料
+                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                    </a>
+                    <button type="button" id="btn_SideBarItem_L1_1" class="btn btn-primary" style="display:none" data-bs-toggle="collapse" data-bs-target="#clp_SideBarItem_L1_1" aria-expanded="false" aria-controls="clp_SideBarItem_L1_1">
+                        Button with data-bs-target
+                    </button>
+                </div>
+                <!--基礎資料相關-項目-->
+                <div class="collapse" id="clp_SideBarItem_L1_1" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
+                    <!--公司-->
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a id="公司" class="nav-link _BarItem" href="@Url.Action("Index_Company", "Company")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
+                            公司
+                        </a>
+                    </nav>
+                    <!--角色-->
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a id="角色" class="nav-link _BarItem" href="@Url.Action("Index_Role", "Role")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
+                            角色
+                        </a>
+                    </nav>
+                    <!--使用者-->
+                    <nav class="sb-sidenav-menu-nested nav">
+                        <a id="使用者" class="nav-link _BarItem" href="@Url.Action("Index_User", "User")">
+                            <div class="sb-nav-link-icon"><i class="fas fa-edit"></i></div>
+                            使用者
+                        </a>
+                    </nav>
+                </div>
+            </div>
+
+            @*<!--開發人員用設定--><!--改隱藏在前台Home-->
+            <div>
+                <div style="padding:0 10px">
+                    <hr style="margin:0; border:1px solid #e9ecef" />
+                </div>
+                <a id="開發人員用設定" class="nav-link _BarItem" href="@Url.Action("Index", "Z_Temp")">
+                    <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
+                    開發人員用設定
+                </a>
+            </div>*@
+
+            <div style="padding:0 10px">
+                <hr style="margin:0; border:1px solid #e9ecef" />
+            </div>
+        </div>
+    </div>
+    <div class="sb-sidenav-footer">
+        <div class="small">Logged in as:</div>
+        Start Bootstrap
+    </div>
+</nav>
+
+@*<script>
+    $(document).ready(function () {
+        var cookieName = '@System.Web.Configuration.WebConfigurationManager.AppSettings["SG_WarehouseManageSystem_Web___HomeAdmin_SideBarItemId_CookieName"]';
+        // 取得當前的左側Bar項目Id
+        var id = Get_CookieValue(cookieName);
+
+        // [T：有抓到值才處理]
+        if (!IsNullOrEmpty(id)) {
+            // 填入active css(高亮樣式)
+            $("#" + id).addClass("active");
+            // 展開
+            AgainShow_SideBarCollapseBlock("sidenavAccordion");
+        }
+
+        // 【綁定事件】保存左側Bar的項目Id(Cookie)
+        $("#sidenavAccordion").find("._BarItem").on("click", function () {
+            Set_CookieValue(cookieName, $(this).attr("id"));
+        });
+    });
+</script>*@

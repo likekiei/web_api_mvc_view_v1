@@ -1,0 +1,41 @@
+﻿@model Main_Common.Model.Account.UserSession_Model
+
+@*<div class="text-muted">Copyright &copy; Your Website 2020</div>*@
+<div>
+    <div class="row">
+        <div class="col-auto">
+            @if (Model != null)
+            {
+                <span>@($"公司：{Model.CompanyNo}---{Model.CompanyName}。")</span>
+            }
+            else
+            {
+                <span>@($"公司：無。")</span>
+            }
+        </div>
+        <div class="col-auto">
+            @if (Model != null)
+            {
+                <span>@($"使用者：{Model.UserNo}---{Model.UserName}---{Model.RoleName}。")</span>
+            }
+            else
+            {
+                <span>@($"使用者：無。")</span>
+            }
+        </div>
+        <div class="col-auto">
+            @* @if (Model != null)
+            {
+            <span>@($"客製資料庫：{Model..ConnectDTO_Main.No}---{Model.ConnectDTO_Main.Catalog}。")</span>
+            }
+            else
+            {
+            <span>@($"客製資料庫：無。")</span>
+            } *@
+        </div>
+    </div>
+    @*<a href="#">Privacy Policy</a>
+    &middot;
+    <a href="#">Terms &amp; Conditions</a>*@
+    <p style="margin:0">&copy; @DateTime.Now.Year - 我的 ASP.NET 應用程式</p>
+</div>

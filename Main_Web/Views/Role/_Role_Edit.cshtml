@@ -1,0 +1,178 @@
+﻿@using Main_Common.Enum
+@using Main_Common.Enum.E_ProjectType
+@model Main_Common.Model.Data.Role.Role_Model
+@{
+    var today = DateTime.UtcNow.AddHours(8);
+    var permissionDTO = (Main_Common.Model.Tool.Permission_DTO)ViewBag.Permission_DTO; //權限DTO
+}
+
+<form asp-action="Edit_Role" asp-controller="Role"
+      id="form_EditRole"
+      data-ajax="true" data-ajax-method="Post" data-ajax-success="Result_EditRole(data)"
+      data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()">
+    <div class="card mb-3">
+        <!--Card Header-->
+        <div class="card-header padd-lr-7" style="cursor: pointer" data-bs-toggle="collapse" data-bs-target="#clps_EditRole">
+            <h4 style="margin:0px">修改角色</h4>
+        </div>
+        <div id="clps_EditRole" class="collapse show">
+            <!--Card Body-->
+            <div class="card-body padd-lr-7">
+                <div>
+                    <input asp-for="CRUD" type="hidden" id="CRUD" class="_CRUD" />
+                    <input asp-for="Id" type="hidden" id="Id" class="_Id" />
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="CompanyId" class="control-label">公司</label>
+                            <input asp-for="CompanyId" type="text"
+                                   id="CompanyId" class="_CompanyId form-control w-100 bg-disable"
+                                   style=""
+                                   placeholder="請輸入" title="公司" readonly="readonly" />
+                            <span asp-validation-for="CompanyId" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="No" class="control-label">代號</label>
+                            <input asp-for="No" type="text"
+                                   id="No" class="_No form-control w-100 bg-disable"
+                                   style=""
+                                   maxlength="" placeholder="請輸入" title="代號" readonly="readonly" />
+                            <span asp-validation-for="No" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="Name" class="control-label">名稱</label>
+                            <input asp-for="Name" type="text"
+                                   id="Name" class="_Name form-control w-100"
+                                   style=""
+                                   maxlength="" placeholder="請輸入" title="名稱" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group select2-textbox">
+                            <label asp-for="PermissionTypeId" class="control-label">權限</label>
+                            <select asp-for="PermissionTypeId" asp-items="@ViewBag.DropList_Permission"
+                                    id="PermissionTypeId_ByEdit" class="_PermissionTypeId _select2 form-control w-100"
+                                    style=""
+                                    placeholder="請輸入" title="權限">
+                            </select>
+                            <span asp-validation-for="PermissionTypeId" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="row" style="display:none">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label asp-for="IsStop" for="IsStop_Edit" class="form-check-label">是否停用</label>
+                            <input asp-for="IsStop" type="checkbox"
+                                   id="IsStop_Edit" class="_IsStop form-check-input"
+                                   style=""
+                                   placeholder="請輸入" title="是否停用" />
+                            <span asp-validation-for="IsStop" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label asp-for="Rem" class="control-label">備註</label>
+                            <textarea asp-for="Rem" type="text"
+                                      id="Rem" class="_Rem form-control w-100"
+                                      style=""
+                                      placeholder="請輸入" title="備註"></textarea>
+                            <span asp-validation-for="Rem" class="text-danger"></span>
+                        </div><hr />
+                    </div>
+                </div>
+
+                <div class="_mDevelopMemo _mHideMemo alert alert-danger" style="display:none" role="alert">
+                    <ul style="margin:0">
+                        @*<li>【角色】欄位，只有登入者所屬角色等級為[最高級]，允許變更。</li>
+                        <li>【角色】欄位，連動[角色權限][部門][客戶]欄位。</li>*@
+                    </ul>
+                </div>
+
+                <!--表身-功能代碼清單-->
+                <hr />
+                <div class="form-group">
+                    <div class="card">
+                        <div class="card-header padd-lr-7">
+                            <h5 class="card-title m-0">功能代碼清單</h5>
+                        </div>
+                        <div class="card-body padd-lr-7">
+                            <div class="_FreezeTable" style="overflow-x:auto">
+                                <table id="Table_FunctionCode_ByEdit" class="mFooTable table table-bordered" style="min-width:600px">
+                                    <thead>
+                                        <tr class="table-dark">
+                                            <th style="min-width:25px;"></th>
+                                            <th style="min-width:70px; vertical-align: inherit; text-align:center;">ID</th>
+                                            <th style="min-width:200px; vertical-align: inherit; text-align:center;">名稱</th>
+                                            <th style="min-width:100px; vertical-align: inherit; text-align:center;">啟用狀態</th>
+                                            <th style="min-width:200px; width:100%; vertical-align: inherit; text-align:center;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @Html.Partial("_FunctionCode_Rows", Model.FunctionCodeList)
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="_mDevelopMemo _mHideMemo alert alert-danger mt-3" style="display:none" role="alert">
+                                <ul style="margin:0">
+                                    <li>【PS】系統內用來判斷是否有執行特定功能的條件。</li>
+                                    <li>【PS】顯示所有功能代碼，但啟用並不代表真的能執行，還會有其它判斷限制。</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--Card Footer-->
+            <div class="card-footer text-muted padd-lr-7">
+                <Button type="submit" class="btn btn-primary" onclick="">保存</Button>
+
+                <a href="@Url.Action("EditView_Role", "Role", new { key = Model.Id })"
+                   data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowTab_EditRole(data)"
+                   data-ajax-begin="myaa_LoadingOn()" data-ajax-complete="myaa_LoadingOff()" data-ajax-failure="myaa_ComFail()"
+                   class="_btnReset btn btn-primary">
+                    重整
+                </a>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(document).ready(function () {
+        var form = $("#form_EditRole");
+
+        // 解鎖Select
+        //myaa_select_Disable_Toggle(form.find("._RoleLevelId"), false); // 角色分級
+
+        // // 依角色等級，區分執行區塊
+        // switch ('@permissionDTO.CompanyLevelId') {
+        //    case '@E_CompanyLevel.最高級':
+        //         //Init_Select2_Company(form.attr("id"), false, @(Model.CompanyId ?? 0)); // 建構Select2
+        //         //select2_Disable_Toggle(form.find("._CompanyId"), false); //解鎖select2(角色)
+        //        break;
+        //    default:
+        //         //select2_Disable_Toggle(form.find("._CompanyId"), true); //禁用select2(角色)
+        //        break;
+        // }
+
+        // 重新綁定表單驗證
+        myaa_RefreshUnobtrusive_ById(form.attr("id"));
+    });
+</script>

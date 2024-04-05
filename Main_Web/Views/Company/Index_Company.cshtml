@@ -1,0 +1,261 @@
+﻿@{
+    ViewData["Title"] = "維護公司資料";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<!-- Html============================================================-->
+<section>
+    <div class="mt-4" style="display:inline-flex">
+        <h1>維護公司資料</h1>
+        <a href="javascript:void(0)" DisplayStatus="hide" onclick="myaa_DevelopMemo_Toggle(this, $(this).closest('section').find('._mDevelopMemo'))"><i class="fas fa-question-circle"></i></a>
+    </div><hr style="border-width:3px" />
+
+    <!--頁籤-->
+    <nav>
+        <div id="div_Tab" class="nav nav-tabs mb-3">
+            <button id="Tab_CompanyList" class="nav-link active" type="button" data-bs-toggle="tab" data-bs-target="#TabView_CompanyList" onclick="">清單</button>
+            <button id="Tab_CreateCompany" class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#TabView_CreateCompany" onclick="">新增</button>
+            <button id="Tab_EditCompany" class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#TabView_EditCompany" onclick="">修改</button>
+            @*<button id="Tab_Company_Import" class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#TabView_Company_Import" onclick="">匯入(員工檔)</button>*@
+        </div>
+    </nav>
+
+    <!--頁籤內容-->
+    <div id="divTabContent" class="tab-content">
+        <!--公司清單查詢頁籤-->
+        <div id="TabView_CompanyList" class="tab-pane fade show active">
+            <div id="" class="_content _wrap mb-3">
+                <!-- 公司清單查詢-View -->
+                <div id="divFilterView_CompanyList">
+                    <a href="@Url.Action("FilterView_CompanyList", "Company")"
+                       data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowView_HtmlActionLink(this, data)"
+                       class="_LoadMark_ByReady btn btn-primary">
+                        生成查詢畫面
+                    </a>
+                </div><hr style="border-width:3px" />
+
+                <!-- 公司-結果View -->
+                <div id="divCompanyList" class="mb-2"></div>
+            </div>
+        </div>
+
+        <!--公司新增頁籤-->
+        <div id="TabView_CreateCompany" class="tab-pane fade">
+            <div id="" class="_content">
+                <a href="@Url.Action("CreateView_Company", "Company")"
+                   data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowTab_CreateCompany(data)"
+                   class="_LoadMark_ByClickCall btn btn-primary">
+                    生成新增畫面
+                </a>
+            </div>
+        </div>
+
+        <!--公司修改頁籤-->
+        <div id="TabView_EditCompany" class="tab-pane fade">
+            <div id="" class="_content">
+            </div>
+        </div>
+    </div>
+
+    @*<div class="_mDevelopMemo _mHideMemo alert alert-danger" style="display:none" role="alert">
+    <ul style="margin:0">
+    <li>【PS】沒有特別設計輸入表單，如要測試請自行從Request處變更or程式改寫。</li>
+    </ul>
+    </div>*@
+</section>
+
+<!-- Modal============================================================-->
+@*<!-- 上傳公司照片_Modal -->
+<div id="Modal_Upload_CompanyPhoto" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="Content_Upload_CompanyPhoto" class="modal-dialog" style="display:flex" role="document">
+    </div>
+</div>*@
+
+<!--全域變數宣告============================================================-->
+@*<script>
+    //var $PageNumber; //當前所在節點Id
+    var $TriggerElm; //觸發元件
+    var $NowForm_UploadFile; //當前表單
+</script>*@
+
+<!--初始化建構============================================================-->
+<!--初始化事件-->
+<script>
+    $(document).ready(function () {
+        // 查詢公司
+        //Filter_CompanyList();
+
+        //查詢按鈕-收合變更Icon
+        //CollapseChangeIcon("clps_Company_Filter", "clps_Company_Filter_icon", "fas fa-angle-down", "fas fa-angle-up");
+    })
+</script>
+
+<!--Tab事件-->
+<script>
+    $(document).ready(function () {
+        //event.target // 目標 tab btn
+        //event.relatedTarget // 當前 tab btn
+
+        // 切換畫面後的事件綁定(新增頁籤)
+        $("#Tab_CreateCompany").on("shown.bs.tab", function (event) {
+            // 執行頁面加載
+            var targetId = $(event.target).attr("data-bs-target");
+            Execute_LoadMark($(targetId), "_LoadMark_ByClickCall");
+        })
+    });
+</script>
+
+<!--Modal事件-->
+<script>
+    //$(document).ready(function () {
+    //    //審核人清單頁面-hidd事件
+    //    $("#Modal_AuditStock_List").on("hidden.bs.modal", function () {
+    //        $("#Content_AuditStock_List").empty();
+    //    });
+    //});
+</script>
+
+<!--Script============================================================-->
+@section Scripts {
+    <!--【查詢】公司查詢-->
+    <script>
+        function Filter_CompanyList() {
+            $("#form_FilterCompanyList").submit();
+        }
+    </script>
+
+    <!--【查詢】公司查詢的請求回傳結果-->
+    <script>
+        function Result_FilterCompanyList(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    } else { //失敗
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    }
+                } else { //回傳PartialView
+                    $("#divCompanyList").empty();
+                    $("#divCompanyList").append(response);
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【新增】顯示公司新增畫面(頁籤)-->
+    <script>
+        function ShowTab_CreateCompany(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        //myaa_ComAlert(response.message, null, null, null);
+                    } else { //失敗
+                        myaa_ComAlert(response.message, null, null, null);
+                    }
+                } else { //回傳PartialView
+                    var target = $("#TabView_CreateCompany").find("._content");
+                    $("#Tab_CreateCompany").click(); //切換頁籤
+                    target.empty();
+                    target.append(response);
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【新增】公司新增的請求回傳結果-->
+    <script>
+        function Result_CreateCompany(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                        $("#TabView_CreateCompany").find("._btnReset").click(); //刷新新增頁面
+                        Filter_CompanyList();
+                    } else { //失敗
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    }
+                } else { //回傳PartialView
+                    myaa_ComFail();
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【修改】顯示公司修改畫面-->
+    <script>
+        function ShowTab_EditCompany(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        //myaa_ComAlert(response.message, null, null, null);
+                    } else { //失敗
+                        myaa_ComAlert(response.message, null, null, null);
+                    }
+                } else { //回傳PartialView
+                    console.log("PartialView");
+                    var target = $("#TabView_EditCompany").find("._content");
+                    $("#Tab_EditCompany").click(); //切換頁籤
+                    target.empty();
+                    target.append(response);
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【修改】公司修改的請求回傳結果-->
+    <script>
+        function Result_EditCompany(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                        $("#TabView_EditCompany").find("._btnReset").click(); //刷新修改頁面
+                        Filter_CompanyList();
+                    } else { //失敗
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    }
+                } else { //回傳PartialView
+                    myaa_ComFail();
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【刪除】公司刪除-->
+    <script>
+        function Delete_Company(e) {
+            myaa_ComConfirm_Swal_Submit("【刪除確認】", "此操作將永久刪除該資料", null, e, null);
+        }
+    </script>
+
+    <!--【刪除】公司刪除的請求回傳結果-->
+    <script>
+        function Result_DeleteCompany(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                        Filter_CompanyList();
+                    } else { //失敗
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    }
+                } else { //回傳PartialView
+                    myaa_ComFail();
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+}
+

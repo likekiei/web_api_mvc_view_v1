@@ -1,0 +1,260 @@
+﻿@{
+    ViewData["Title"] = "維護使用者資料";
+    Layout = "~/Views/Shared/_Admin_Layout.cshtml";
+}
+
+<!-- Html============================================================-->
+<section>
+    <div class="mt-4" style="display:inline-flex">
+        <h1>維護使用者資料</h1>
+        <a href="javascript:void(0)" DisplayStatus="hide" onclick="myaa_DevelopMemo_Toggle(this, $(this).closest('section').find('._mDevelopMemo'))"><i class="fas fa-question-circle"></i></a>
+    </div><hr style="border-width:3px" />
+
+    <!--頁籤-->
+    <nav>
+        <div id="div_Tab" class="nav nav-tabs mb-3">
+            <button id="Tab_UserList" class="nav-link active" type="button" data-bs-toggle="tab" data-bs-target="#TabView_UserList" onclick="">清單</button>
+            <button id="Tab_UserCreate" class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#TabView_UserCreate" onclick="">新增</button>
+            <button id="Tab_UserEdit" class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#TabView_UserEdit" onclick="">修改</button>
+            @*<button id="Tab_User_Import" class="nav-link" type="button" data-bs-toggle="tab" data-bs-target="#TabView_User_Import" onclick="">匯入(員工檔)</button>*@
+        </div>
+    </nav>
+
+    <!--頁籤內容-->
+    <div id="div_TabContent" class="tab-content">
+        <!--使用者清單查詢頁籤-->
+        <div id="TabView_UserList" class="tab-pane fade show active">
+            <div id="" class="_content _wrap mb-3">
+                <!-- 使用者清單查詢-View -->
+                <div id="div_UserList_FilterView">
+                    <a href="@Url.Action("FilterView_UserList", "User")"
+                       data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowView_HtmlActionLink(this, data)"
+                       class="_LoadMark_ByReady btn btn-primary">
+                        生成查詢畫面
+                    </a>
+                </div><hr style="border-width:3px" />
+
+                <!-- 使用者-結果View -->
+                <div id="div_UserList" class="mb-2"></div>
+            </div>
+        </div>
+
+        <!--使用者新增頁籤-->
+        <div id="TabView_UserCreate" class="tab-pane fade">
+            <div id="div_User_Create" class="_content">
+                <a href="@Url.Action("CreateView_User", "User")"
+                   data-ajax="true" data-ajax-method="Post" data-ajax-success="ShowModal_Create_User(data)"
+                   class="_LoadMark_ByClickCall btn btn-primary">
+                    生成新增畫面
+                </a>
+            </div>
+        </div>
+
+        <!--使用者修改頁籤-->
+        <div id="TabView_UserEdit" class="tab-pane fade">
+            <div id="div_User_Edit" class="_content">
+
+            </div>
+        </div>
+    </div>
+
+    @*<div class="_mDevelopMemo _mHideMemo alert alert-danger" style="display:none" role="alert">
+    <ul style="margin:0">
+    <li>【PS】沒有特別設計輸入表單，如要測試請自行從Request處變更or程式改寫。</li>
+    </ul>
+    </div>*@
+</section>
+
+<!-- Modal============================================================-->
+@*<!-- 上傳使用者照片_Modal -->
+<div id="Modal_Upload_UserPhoto" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="Content_Upload_UserPhoto" class="modal-dialog" style="display:flex" role="document">
+    </div>
+</div>*@
+
+<!--全域變數宣告============================================================-->
+@*<script>
+    //var $PageNumber; //當前所在節點Id
+    var $TriggerElm; //觸發元件
+    var $NowForm_UploadFile; //當前表單
+</script>*@
+
+<!--初始化建構============================================================-->
+<!--初始化事件-->
+<script>
+    $(document).ready(function () {
+        // 查詢使用者
+        Filter_UserList();
+
+        //查詢按鈕-收合變更Icon
+        //CollapseChangeIcon("clps_User_Filter", "clps_User_Filter_icon", "fas fa-angle-down", "fas fa-angle-up");
+    })
+</script>
+
+<!--Tab事件-->
+<script>
+    $(document).ready(function () {
+        //event.target // 目標 tab btn
+        //event.relatedTarget // 當前 tab btn
+
+        // 切換畫面後的事件綁定(新增頁籤)
+        $("#Tab_UserCreate").on("shown.bs.tab", function (event) {
+            // 執行頁面加載
+            var targetId = $(event.target).attr("data-bs-target");
+            Execute_LoadMark($(targetId), "_LoadMark_ByClickCall");
+        })
+    });
+</script>
+
+<!--Modal事件-->
+<script>
+    //$(document).ready(function () {
+    //    //審核人清單頁面-hidd事件
+    //    $("#Modal_AuditStock_List").on("hidden.bs.modal", function () {
+    //        $("#Content_AuditStock_List").empty();
+    //    });
+    //});
+</script>
+
+<!--Script============================================================-->
+@section Scripts {
+    <!--【查詢-使用者】使用者查詢-->
+    <script>
+        function Filter_UserList() {
+            $("#form_Filter_UserList").submit();
+        }
+    </script>
+
+    <!--【查詢-使用者】使用者查詢_結果-->
+    <script>
+        function Filter_UserList_Result(response) {
+            if (response !== undefined) { // 有回傳
+                if (response._isSuccess !== undefined) { // 回傳Message
+                    if (response._isSuccess == true) { // 成功
+                        myaa_ComAlert(response._message, null, null, null);
+                    } else { // 失敗
+                        myaa_ComAlert(response._message, null, null, null);
+                    }
+                } else { // 回傳PartialView
+                    $("#div_UserList").empty();
+                    $("#div_UserList").append(response);
+                }
+            } else { // 無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【新增-使用者】顯示新增畫面-->
+    <script>
+        function ShowModal_Create_User(response) {
+            if (response !== undefined) { //有回傳
+                if (response._isSuccess !== undefined) { //回傳Message
+                    if (response._isSuccess == true) { //成功
+                        //myaa_ComAlert(response._message, null, null, null);
+                    } else { //失敗
+                        myaa_ComAlert(response._message, null, null, null);
+                    }
+                } else { //回傳PartialView
+                    var target = $("#TabView_UserCreate").find("._content");
+                    $("#Tab_UserCreate").click(); //切換頁籤
+                    target.empty();
+                    target.append(response);
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【新增-使用者】請求成功的回傳結果-->
+    <script>
+        function Create_User_Result(response) {
+            if (response !== undefined) { //有回傳
+                if (response._isSuccess !== undefined) { //回傳Message
+                    if (response._isSuccess == true) { //成功
+                        myaa_ComAlert(response._message, null, null, null);
+                        $("#TabView_UserCreate").find("._btnReset").click(); //刷新新增頁面
+                        Filter_UserList();
+                    } else { //失敗
+                        myaa_ComAlert(response._message, null, null, null);
+                    }
+                } else { //回傳PartialView
+                    myaa_ComFail();
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【修正-使用者】顯示修正畫面-->
+    <script>
+        function ShowModal_Edit_User(response) {
+            if (response !== undefined) { //有回傳
+                if (response._isSuccess !== undefined) { //回傳Message
+                    if (response._isSuccess == true) { //成功
+                        //myaa_ComAlert(response._message, null, null, null);
+                    } else { //失敗
+                        myaa_ComAlert(response._message, null, null, null);
+                    }
+                } else { //回傳PartialView
+                    var target = $("#TabView_UserEdit").find("._content");
+                    $("#Tab_UserEdit").click(); //切換頁籤
+                    target.empty();
+                    target.append(response);
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【修正-使用者】請求成功的回傳結果-->
+    <script>
+        function Edit_User_Result(response) {
+            if (response !== undefined) { //有回傳
+                if (response.isSuccess !== undefined) { //回傳Message
+                    if (response.isSuccess == true) { //成功
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                        $("#TabView_UserEdit").find("._btnReset").click(); //刷新修正頁面
+                        Filter_UserList();
+                    } else { //失敗
+                        myaa_ComAlert(response.title, response.message, null, response.logUrl);
+                    }
+                } else { //回傳PartialView
+                    myaa_ComFail();
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+
+    <!--【刪除-使用者】刪除使用者-->
+    <script>
+        function Delete_User(e) {
+            myaa_ComConfirm_Swal_Submit("【刪除確認】", "此操作將永久刪除該資料", null, e, null);
+        }
+    </script>
+
+    <!--【刪除-使用者】請求成功的回傳結果-->
+    <script>
+        function Delete_User_Result(response) {
+            if (response !== undefined) { //有回傳
+                if (response._isSuccess !== undefined) { //回傳Message
+                    if (response._isSuccess == true) { //成功
+                        myaa_ComAlert(response._message, null, null, null);
+                        Filter_UserList();
+                    } else { //失敗
+                        myaa_ComAlert(response._message, null, null, null);
+                    }
+                } else { //回傳PartialView
+                    myaa_ComFail();
+                }
+            } else { //無回傳
+                myaa_ComFail();
+            }
+        }
+    </script>
+}
